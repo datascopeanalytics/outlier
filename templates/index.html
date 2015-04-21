@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock css %}
+
+{% block cdn_js %}
+{{ super() }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+{% endblock cdn_js %}
 
 {% block js %}
 <script>
-  var data = {{data|tojson}};
+  var raw_data = {{raw_data|tojson}};
 </script>
+<script src="{{ url_for('static', filename='js/barchart.js') }}"></script>
 {% endblock js %}

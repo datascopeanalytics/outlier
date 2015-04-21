@@ -11,7 +11,7 @@ Scss(app, static_dir='static', asset_dir='assets')
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html', data=data.get_survey_responses())
+    return render_template('index.html', raw_data=data.get_survey_responses())
 
 
 if __name__ == '__main__':

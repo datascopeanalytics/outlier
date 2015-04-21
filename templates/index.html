@@ -10,7 +10,15 @@
 <div class="container">
   <div class="row controls">
     <div class="col-md-6">
-      <p>CHOSEN</p>
+      <select class="filter" data-placeholder="Choose filter" multiple tab-index="-1">
+        {% for group, options in chosen_options.iteritems() %}
+        <optgroup label="{{group}}">
+          {% for option in options %}
+          <option value="{{option}}">{{option}}</option>
+          {% endfor %}
+        </optgroup>
+        {% endfor %}
+      </select>
     </div>
     <div class="col-md-6">
       <div class="centered">
@@ -50,6 +58,7 @@
 {% block cdn_js %}
 {{ super() }}
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
 {% endblock cdn_js %}
 
 {% block js %}

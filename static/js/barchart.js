@@ -1,6 +1,6 @@
 var margin = {top: 30, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 800 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
     .range([0, width])
@@ -65,12 +65,27 @@ y.domain(data.map(function(d) { return d.name; }));
 
 svg.selectAll(".bar")
     .data(data)
-  .enter().append("rect")
-    .attr("class", "bar")
+  .enter().append("g")
+    .attr("class", "bar");
+svg.selectAll(".bar")
+    .append("rect")
     .attr("x", function(d) { return x(d.before); })
     .attr("y", function(d) { return y(d.name); })
     .attr("width", function(d) { return x(d.after) - x(d.before)})
     .attr("height", y.rangeBand());
+svg.selectAll(".bar")
+    .append("text")
+    .attr("class", "backer")
+    .attr("x", function(d) { return x(0) })
+    .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
+    .attr("dy", "0.35em")
+    .text(function (d) {return d.name});
+svg.selectAll(".bar")
+    .append("text")
+    .attr("x", function(d) { return x(0) })
+    .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
+    .attr("dy", "0.35em")
+    .text(function (d) {return d.name});
 
 svg.append("g")
     .attr("class", "x axis")

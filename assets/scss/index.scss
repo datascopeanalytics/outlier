@@ -1,5 +1,17 @@
 .bar {
-  fill: steelblue;
+  rect {
+    fill: steelblue;
+  }
+  text {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    fill: #333;
+    text-anchor: middle;
+    &.backer {
+      stroke: white;
+      stroke-width: 2px;
+    }
+  }
 }
 
 .axis text {
@@ -11,4 +23,10 @@
   stroke: #000;
   stroke-width: 1px;
   shape-rendering: crispEdges;
+}
+
+.axis.y line {
+  stroke-dasharray: 10, 5;
+  stroke: white;
+  fill: none;
 }

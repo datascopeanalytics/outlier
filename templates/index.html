@@ -5,6 +5,48 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock css %}
 
+{% block main %}
+{{ super() }}
+<div class="container">
+  <div class="row controls">
+    <div class="col-md-6">
+      <p>CHOSEN</p>
+    </div>
+    <div class="col-md-6">
+      <div class="centered">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-primary">
+            <input type="radio" autocomplete="off">before
+          </label>
+          <label class="btn btn-primary active">
+            <input type="radio" autocomplete="off" checked> change
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" autocomplete="off"> after
+          </label>
+        </div>
+      </div>
+      <div class="centered">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-primary active">
+            <input type="radio" autocomplete="off" checked>
+            <span class="glyphicon glyphicon-sort-by-attributes"></span> increasing
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" autocomplete="off">
+            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> decreasing
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row visualization">
+    <div id="barchart"></div>
+  </div>
+</div>
+{% endblock main %}
+
+
 {% block cdn_js %}
 {{ super() }}
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>

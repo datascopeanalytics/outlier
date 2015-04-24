@@ -1,7 +1,7 @@
 
 $(".filter").chosen();
 
-var margin = {top: 30, right: 10, bottom: 10, left: 10},
+var margin = {top: 50, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
@@ -13,7 +13,11 @@ var y = d3.scale.ordinal()
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("top");
+    .orient("top")
+    .tickFormat(function (d){
+        if (d < 0){ return (d * -1);}
+        return d;
+        })
 
 var svg = d3.select("#barchart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -100,3 +104,16 @@ svg.append("g")
     .attr("x1", x(0))
     .attr("x2", x(0))
     .attr("y2", height);
+
+var xLabelHeight = "-27";
+
+svg.append("text")
+    .attr("class", "xLabel")
+    .attr("x", "-7")
+    .attr("y", xLabelHeight)
+    .text("Before");
+svg.append("text")
+    .attr("class", "xLabel")
+    .attr("x", width - 20)
+    .attr("y", xLabelHeight)
+    .text("After");

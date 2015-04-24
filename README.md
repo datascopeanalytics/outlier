@@ -7,3 +7,10 @@ Quickstart
 3. To start flask app, `python web.py`
 
 4. Add soft link to Dropbox folder with `ln -s ~/Dropbox/UofC-Outlier/ Dropbox`
+
+
+If already set up
+
+1. `workon outlier`
+
+2. `python web.py`

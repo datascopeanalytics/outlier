@@ -98,13 +98,12 @@ svg.append("text")
 // render something when we first load the page and also when any of the
 // buttons are pushed
 render_bars();
-$("#ordering .btn-primary").on("click", render_bars);
+$("#before-change-after .btn-primary").on("click", ordering_before_change_after);
+$("#increasing-decreasing .btn-primary").on("click", ordering_increasing_decreasing);
 
 // redraw everything that should change dynamically
 function render_bars () {
-    console.log('hi', this)
 
-    order_data();
     y.domain(data.map(function(d) { return d.name; }));
 
     // remove everything
@@ -140,15 +139,37 @@ function render_bars () {
         .text(function (d) {return d.name});
 }
 
-function order_data() {
-    var before_change_after = $.trim($("#before-change-after label.active").text());
+
+function ordering_before_change_after(event) {
+    var before_change_after = $.trim($(this).text());
     var increasing_decreasing = $.trim($("#increasing-decreasing label.active").text());
-    console.log(before_change_after, increasing_decreasing)
+    order_data(before_change_after, increasing_decreasing);
+    render_bars();
+}
+
+function ordering_increasing_decreasing(event) {
+    var before_change_after = $.trim($("#before-change-after label.active").text());
+    var increasing_decreasing = $.trim($(this).text());
+    order_data(before_change_after, increasing_decreasing);
+    render_bars();
+}
+
+function order_data(before_change_after, increasing_decreasing) {
     if (increasing_decreasing === "increasing") {
-        var comparator = d3.ascending;
+        if (before_change_after === "before") {
+            var comparator = d3.descending;
+        }
+        else {
+            var comparator = d3.ascending;
+        }
     }
     else {
-        var comparator = d3.descending;
+        if (before_change_after === "before") {
+            var comparator = d3.ascending;
+        }
+        else {
+            var comparator = d3.descending;
+        }
     }
     data.sort(function (a, b) {
         var c = comparator(a[before_change_after], b[before_change_after]);
@@ -157,5 +178,4 @@ function order_data() {
         }
         return c;
     });
-    console.log(data)
 }

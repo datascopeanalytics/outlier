@@ -26,7 +26,6 @@ var svg = d3.select("#barchart").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var data = create_bar_chart_data(raw_data);
-console.log(data)
 
 function update_counter(counter, values) {
   values.forEach(function (value) {
@@ -55,11 +54,15 @@ function create_bar_chart_data(raw_data) {
   // assemble into an easy to use
   var data = [];
   names.forEach(function (name) {
-    data.push({
+    var d = {
       name: name,
       before: -before[name] || 0,
       after: after[name] || 0
-    })
+    }
+
+    // d.before is already negative
+    d.change = d.after + d.before;
+    data.push(d);
   });
   return data;
 }
@@ -68,7 +71,6 @@ x.domain([
   d3.min(data, function (d) {return d.before}),
   d3.max(data, function (d) {return d.after})
 ]).nice();
-y.domain(data.map(function(d) { return d.name; }));
 
 // configure the axes
 var xLabelHeight = "-27";
@@ -96,11 +98,14 @@ svg.append("text")
 // render something when we first load the page and also when any of the
 // buttons are pushed
 render_bars();
-$(".btn-primary").on("click", render_bars);
+$("#ordering .btn-primary").on("click", render_bars);
 
 // redraw everything that should change dynamically
 function render_bars () {
-    console.log('hi')
+    console.log('hi', this)
+
+    order_data();
+    y.domain(data.map(function(d) { return d.name; }));
 
     // remove everything
     svg.selectAll(".bar").remove();
@@ -133,5 +138,24 @@ function render_bars () {
         .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
         .attr("dy", "0.35em")
         .text(function (d) {return d.name});
+}
 
+function order_data() {
+    var before_change_after = $.trim($("#before-change-after label.active").text());
+    var increasing_decreasing = $.trim($("#increasing-decreasing label.active").text());
+    console.log(before_change_after, increasing_decreasing)
+    if (increasing_decreasing === "increasing") {
+        var comparator = d3.ascending;
+    }
+    else {
+        var comparator = d3.descending;
+    }
+    data.sort(function (a, b) {
+        var c = comparator(a[before_change_after], b[before_change_after]);
+        if (c===0) {
+            return comparator(a.name, b.name);
+        }
+        return c;
+    });
+    console.log(data)
 }

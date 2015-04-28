@@ -70,43 +70,17 @@ x.domain([
 ]).nice();
 y.domain(data.map(function(d) { return d.name; }));
 
-svg.selectAll(".bar")
-    .data(data)
-  .enter().append("g")
-    .attr("class", "bar");
-svg.selectAll(".bar")
-    .append("rect")
-    .attr("x", function(d) { return x(d.before); })
-    .attr("y", function(d) { return y(d.name); })
-    .attr("width", function(d) { return x(d.after) - x(d.before)})
-    .attr("height", y.rangeBand());
-svg.selectAll(".bar")
-    .append("text")
-    .attr("class", "backer")
-    .attr("x", function(d) { return x(0) })
-    .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
-    .attr("dy", "0.35em")
-    .text(function (d) {return d.name});
-svg.selectAll(".bar")
-    .append("text")
-    .attr("x", function(d) { return x(0) })
-    .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
-    .attr("dy", "0.35em")
-    .text(function (d) {return d.name});
-
+// configure the axes
+var xLabelHeight = "-27";
 svg.append("g")
     .attr("class", "x axis")
     .call(xAxis);
-
 svg.append("g")
     .attr("class", "y axis")
   .append("line")
     .attr("x1", x(0))
     .attr("x2", x(0))
     .attr("y2", height);
-
-var xLabelHeight = "-27";
-
 svg.append("text")
     .attr("class", "xLabel")
     .attr("x", "-7")
@@ -117,3 +91,47 @@ svg.append("text")
     .attr("x", width - 20)
     .attr("y", xLabelHeight)
     .text("After");
+
+
+// render something when we first load the page and also when any of the
+// buttons are pushed
+render_bars();
+$(".btn-primary").on("click", render_bars);
+
+// redraw everything that should change dynamically
+function render_bars () {
+    console.log('hi')
+
+    // remove everything
+    svg.selectAll(".bar").remove();
+
+    // add a bunch of g.bar elements
+    svg.selectAll(".bar")
+        .data(data)
+      .enter().append("g")
+        .attr("class", "bar");
+
+    // add the rectangles
+    svg.selectAll(".bar")
+        .append("rect")
+        .attr("x", function(d) { return x(d.before); })
+        .attr("y", function(d) { return y(d.name); })
+        .attr("width", function(d) { return x(d.after) - x(d.before)})
+        .attr("height", y.rangeBand());
+
+    // add the labels
+    svg.selectAll(".bar")
+        .append("text")
+        .attr("class", "backer")
+        .attr("x", function(d) { return x(0) })
+        .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
+        .attr("dy", "0.35em")
+        .text(function (d) {return d.name});
+    svg.selectAll(".bar")
+        .append("text")
+        .attr("x", function(d) { return x(0) })
+        .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
+        .attr("dy", "0.35em")
+        .text(function (d) {return d.name});
+
+}

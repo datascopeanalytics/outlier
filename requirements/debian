@@ -1,9 +1,5 @@
-# for compiling some python packages from source
 gcc
-
-# for installing gems
+build-essential
 ruby
 ruby-dev
-
-# for debugging issues remotely
 emacs

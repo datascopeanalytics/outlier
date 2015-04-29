@@ -55,5 +55,7 @@ docs/_build/
 
 # PyBuilder
 target/
-static/css/
+
+# project specific
+web/static/css/
 Dropbox

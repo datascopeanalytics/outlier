@@ -5,8 +5,9 @@ from flask.ext.scss import Scss
 import data
 
 app = Flask(__name__)
-app.debug = True
-Scss(app, static_dir='static', asset_dir='assets')
+
+# configure flask extensions
+_scss = Scss(app, static_dir='static', asset_dir='assets')
 
 
 @app.route('/')
@@ -34,4 +35,11 @@ def get_chosen_options(raw_data):
     return chosen_options
 
 if __name__ == '__main__':
+    # enable reloading of the page if any files are changed
+    app.debug = True
+
+    # use the Flask-Scss extension to compile all of the scss
+    _scss.set_hooks()
+
+    # run the web server
     app.run()

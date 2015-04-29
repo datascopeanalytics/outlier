@@ -3,6 +3,11 @@ import csv
 import json
 from pprint import pprint
 
+# path manipulation convenience variables for below
+web_root = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(web_root)
+data_dir = os.path.join(project_root, "Dropbox", "Background")
+
 
 def normalize(s):
     return s.strip().lower()
@@ -18,7 +23,7 @@ def normalize_to_list(s):
 def get_survey_responses():
     # load the csv file and cast the variables into sane names to be used in javascript
     data = []
-    with open('Dropbox/Background/data.csv') as csvfile:
+    with open(os.path.join(data_dir, 'data.csv')) as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             print row.keys()

@@ -1,0 +1,6 @@
+# on login, always change into the /vagrant directory to save that
+# inevitable step
+cd %(remote_path)s
+
+# fix annoyingness with running rqinfo on commandline
+export PYTHONIOENCODING=utf-8

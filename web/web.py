@@ -13,9 +13,10 @@ _scss = Scss(app, static_dir='static', asset_dir='assets')
 @app.route('/')
 def hello_world():
     raw_data = data.get_survey_responses()
+    categories = data.get_categories()
     chosen_options = get_chosen_options(raw_data)
+    return render_template('index.html', raw_data=raw_data, categories=categories, chosen_options=chosen_options)
 
-    return render_template('index.html', raw_data=raw_data, chosen_options=chosen_options)
 
 def get_chosen_options(raw_data):
     #get unique options with sets
@@ -33,6 +34,7 @@ def get_chosen_options(raw_data):
     # sort districts
     chosen_options["district"] = sorted(list(chosen_options["district"]))
     return chosen_options
+
 
 if __name__ == '__main__':
     # enable reloading of the page if any files are changed

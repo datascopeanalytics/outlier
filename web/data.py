@@ -35,6 +35,21 @@ def get_survey_responses():
             })
     return data
 
+
+def get_categories():
+    categories = {}
+    with open(os.path.join(data_dir, 'categories.csv')) as csvfile:
+        csvreader = csv.DictReader(csvfile)
+        for row in csvreader:
+            sub_category =  normalize(row['factor'])
+            main_category = normalize(row['category'])
+            categories[sub_category] = main_category
+    return categories
+
+
 if __name__ == "__main__":
-    data = get_survey_responses()
-    pprint(data)
+    # data = get_survey_responses()
+    # pprint(data)
+    # categories = get_categories()
+    # pprint (categories)
+    # print len(categories)

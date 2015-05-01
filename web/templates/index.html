@@ -64,6 +64,7 @@
 {% block js %}
 <script>
   var raw_data = {{raw_data|tojson}};
+  var categories = {{categories|tojson}};
 </script>
 <script src="{{ url_for('static', filename='js/barchart.js') }}"></script>
 {% endblock js %}

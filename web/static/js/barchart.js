@@ -40,44 +40,62 @@ function update_counter(counter, values) {
   })
 }
 
-// count categories in raw data, filter if filters are selected
+// count categories in raw data, use filters if selected
 function create_bar_chart_data(raw_data, filters) {
   var before = {};
   var after = {};
   raw_data.forEach(function (d) {
     if (filters){
-      // increment count if grade or district are included in our filters
       if(filters.indexOf(d.grade) > -1 || filters.indexOf(d.district) > -1 ){
         update_counter(before, d.before);
         update_counter(after, d.after);
       }
     }
-    // count all data if no filters selected
     else{
       update_counter(before, d.before);
       update_counter(after, d.after);
     }
   })
 
-  // get all of the names for the before and after counters
-  var names = d3.set(d3.merge([
-    d3.keys(before), d3.keys(after)
-  ]))
-
-  // assemble into an easy to use
-  var data = [];
+  // create sub_category associative arrays
+  var names = d3.set(d3.merge([d3.keys(before), d3.keys(after)]))
+  var sub_categories = [];
   names.forEach(function (name) {
     var d = {
       name: name,
+      main_category: categories[name],
       before: -before[name] || 0,
       after: after[name] || 0
     }
-
     // d.before is already negative
     d.change = d.after + d.before;
-    data.push(d);
+
+    sub_categories.push(d);
   });
-  return data;
+
+  // create main_category associative arrays
+  var main_category_names = d3.set(d3.values(categories));
+  var main_categories = [];
+  main_category_names.forEach(function(main_category_name){
+    var d = {
+      main_category: main_category_name,
+      before: 0,
+      after: 0,
+      sub_categories: [],
+    }
+    sub_categories.forEach(function(sub_category){
+      if(sub_category.main_category == d.main_category){
+        d.before += sub_category.before
+        d.after += sub_category.after
+        d.sub_categories.push(sub_category)
+      }
+    })
+    // d.before is already negative
+    d.change = d.after + d.before;
+    main_categories.push(d);
+  })
+
+  return main_categories;
 }
 
 x.domain([
@@ -109,7 +127,7 @@ svg.append("text")
 
 // redraw everything that should change dynamically
 function render_bars () {
-    y.domain(data.map(function(d) { return d.name; }));
+    y.domain(data.map(function(d) { return d.main_category; }));
 
     // remove everything
     svg.selectAll(".bar").remove();
@@ -124,7 +142,7 @@ function render_bars () {
     svg.selectAll(".bar")
         .append("rect")
         .attr("x", function(d) { return x(d.before); })
-        .attr("y", function(d) { return y(d.name); })
+        .attr("y", function(d) { return y(d.main_category); })
         .attr("width", function(d) { return x(d.after) - x(d.before)})
         .attr("height", y.rangeBand());
 
@@ -133,15 +151,15 @@ function render_bars () {
         .append("text")
         .attr("class", "backer")
         .attr("x", function(d) { return x(0) })
-        .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
+        .attr("y", function(d) { return y(d.main_category) + 0.5*y.rangeBand(); })
         .attr("dy", "0.35em")
-        .text(function (d) {return d.name});
+        .text(function (d) {return d.main_category});
     svg.selectAll(".bar")
         .append("text")
         .attr("x", function(d) { return x(0) })
-        .attr("y", function(d) { return y(d.name) + 0.5*y.rangeBand(); })
+        .attr("y", function(d) { return y(d.main_category) + 0.5*y.rangeBand(); })
         .attr("dy", "0.35em")
-        .text(function (d) {return d.name});
+        .text(function (d) {return d.main_category});
 }
 
 // render bars and order data  when we first load the page
@@ -160,11 +178,7 @@ $(".filter").change(function(event){
       data = create_bar_chart_data(raw_data, filter_choices);
     }
 
-    //grab ordering button values
-    var before_change_after = before_change_after || $.trim($("#before-change-after label.active").text());
-    var increasing_decreasing = increasing_decreasing || $.trim($("#increasing-decreasing label.active").text());
-
-    order_data(before_change_after, increasing_decreasing);
+    order_data();
     render_bars();
 });
 
@@ -187,6 +201,9 @@ function ordering_increasing_decreasing(event) {
 }
 
 function order_data(before_change_after, increasing_decreasing) {
+    var before_change_after = before_change_after || $.trim($("#before-change-after label.active").text());
+    var increasing_decreasing = increasing_decreasing || $.trim($("#increasing-decreasing label.active").text());
+
     if (increasing_decreasing === "increasing") {
         if (before_change_after === "before") {
             var comparator = d3.descending;
@@ -211,3 +228,26 @@ function order_data(before_change_after, increasing_decreasing) {
         return c;
     });
 }
+
+//DATA FORMAT
+//
+// data = [
+//   {
+//     main_category: 'category1',
+//     before:-5
+//     after:10
+//     change:5
+//     sub_categories: [
+//       {
+//         name: 'this is a subcategory'
+//         before: -5
+//         after: 3
+//       },
+//       {
+//         name: 'this is a subcategory2'
+//         before: 0
+//         after: 7
+//       },
+//     ]
+//   }
+// ]

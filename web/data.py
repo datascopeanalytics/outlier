@@ -51,5 +51,5 @@ if __name__ == "__main__":
     # data = get_survey_responses()
     # pprint(data)
     # categories = get_categories()
-    # pprint (categories)
-    # print len(categories)
+    pprint (categories)
+    print len(categories)

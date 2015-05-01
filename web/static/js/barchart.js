@@ -1,4 +1,4 @@
-
+//make filter chosen style
 $(".filter").chosen();
 
 var margin = {top: 50, right: 10, bottom: 10, left: 10},
@@ -25,8 +25,10 @@ var svg = d3.select("#barchart").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+//initialize data
 var data = create_bar_chart_data(raw_data);
 
+//increment number of items in category
 function update_counter(counter, values) {
   values.forEach(function (value) {
     if(value in counter) {
@@ -38,12 +40,23 @@ function update_counter(counter, values) {
   })
 }
 
-function create_bar_chart_data(raw_data) {
+// count categories in raw data, filter if filters are selected
+function create_bar_chart_data(raw_data, filters) {
   var before = {};
   var after = {};
   raw_data.forEach(function (d) {
-    update_counter(before, d.before);
-    update_counter(after, d.after);
+    if (filters){
+      // increment count if grade or district are included in our filters
+      if(filters.indexOf(d.grade) > -1 || filters.indexOf(d.district) > -1 ){
+        update_counter(before, d.before);
+        update_counter(after, d.after);
+      }
+    }
+    // count all data if no filters selected
+    else{
+      update_counter(before, d.before);
+      update_counter(after, d.after);
+    }
   })
 
   // get all of the names for the before and after counters
@@ -72,7 +85,7 @@ x.domain([
   d3.max(data, function (d) {return d.after})
 ]).nice();
 
-// configure the axes
+// configure the xAxis
 var xLabelHeight = "-27";
 svg.append("g")
     .attr("class", "x axis")
@@ -94,16 +107,8 @@ svg.append("text")
     .attr("y", xLabelHeight)
     .text("After");
 
-
-// render something when we first load the page and also when any of the
-// buttons are pushed
-render_bars();
-$("#before-change-after .btn-primary").on("click", ordering_before_change_after);
-$("#increasing-decreasing .btn-primary").on("click", ordering_increasing_decreasing);
-
 // redraw everything that should change dynamically
 function render_bars () {
-
     y.domain(data.map(function(d) { return d.name; }));
 
     // remove everything
@@ -139,6 +144,33 @@ function render_bars () {
         .text(function (d) {return d.name});
 }
 
+// render bars and order data  when we first load the page
+order_data();
+render_bars();
+
+// on filter change: get filter choices, update data, order data
+$(".filter").change(function(event){
+    var filter_choices = [];
+    $(".filter option:selected" ).each(function(i, obj){
+      filter_choices.push(obj.innerText);
+    })
+    if (filter_choices.length == 0){
+      data = create_bar_chart_data(raw_data);
+    }else{
+      data = create_bar_chart_data(raw_data, filter_choices);
+    }
+
+    //grab ordering button values
+    var before_change_after = before_change_after || $.trim($("#before-change-after label.active").text());
+    var increasing_decreasing = increasing_decreasing || $.trim($("#increasing-decreasing label.active").text());
+
+    order_data(before_change_after, increasing_decreasing);
+    render_bars();
+});
+
+// ordering radio button clicked
+$("#before-change-after .btn-primary").on("click", ordering_before_change_after);
+$("#increasing-decreasing .btn-primary").on("click", ordering_increasing_decreasing);
 
 function ordering_before_change_after(event) {
     var before_change_after = $.trim($(this).text());

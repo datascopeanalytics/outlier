@@ -1,6 +1,10 @@
 //make filter chosen style
 $(".filter").chosen();
 
+var collapse_template = Handlebars.compile(
+  $("#collapse-template").html()
+);
+
 var margin = {top: 50, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
@@ -19,9 +23,9 @@ var xAxis = d3.svg.axis()
         return d;
         })
 
-var svg = d3.select("#barchart").append("svg")
+var svg_axis = d3.select("#x-axis")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", margin.top)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -39,6 +43,7 @@ function update_counter(counter, values) {
     }
   })
 }
+
 
 // count categories in raw data, use filters if selected
 function create_bar_chart_data(raw_data, filters) {
@@ -65,7 +70,7 @@ function create_bar_chart_data(raw_data, filters) {
       name: name,
       main_category: categories[name],
       before: -before[name] || 0,
-      after: after[name] || 0
+      after: after[name] || 0,
     }
     // d.before is already negative
     d.change = d.after + d.before;
@@ -76,13 +81,14 @@ function create_bar_chart_data(raw_data, filters) {
   // create main_category associative arrays
   var main_category_names = d3.set(d3.values(categories));
   var main_categories = [];
-  main_category_names.forEach(function(main_category_name){
+  main_category_names.forEach(function(main_category_name, index, ar){
     var d = {
       main_category: main_category_name,
       before: 0,
       after: 0,
       sub_categories: [],
     }
+
     sub_categories.forEach(function(sub_category){
       if(sub_category.main_category == d.main_category){
         d.before += sub_category.before
@@ -94,77 +100,117 @@ function create_bar_chart_data(raw_data, filters) {
     d.change = d.after + d.before;
     main_categories.push(d);
   })
-
   return main_categories;
 }
 
+
+// configure the xAxis
 x.domain([
   d3.min(data, function (d) {return d.before}),
   d3.max(data, function (d) {return d.after})
 ]).nice();
 
-// configure the xAxis
 var xLabelHeight = "-27";
-svg.append("g")
+svg_axis.append("g")
     .attr("class", "x axis")
     .call(xAxis);
-svg.append("g")
-    .attr("class", "y axis")
-  .append("line")
-    .attr("x1", x(0))
-    .attr("x2", x(0))
-    .attr("y2", height);
-svg.append("text")
+svg_axis.append("text")
     .attr("class", "xLabel")
     .attr("x", "-7")
     .attr("y", xLabelHeight)
     .text("Before");
-svg.append("text")
+svg_axis.append("text")
     .attr("class", "xLabel")
     .attr("x", width - 20)
     .attr("y", xLabelHeight)
     .text("After");
 
-// redraw everything that should change dynamically
-function render_bars () {
-    y.domain(data.map(function(d) { return d.main_category; }));
 
-    // remove everything
-    svg.selectAll(".bar").remove();
+function add_wrappers (main_category, index){
+      var wrapper = d3.select('#barchart')
+          .append('div')
+          .attr("style", "width:" +( width + 20 )+ "px;")
+      main_category.index = index + 1;
+      wrapper.html(collapse_template(main_category));
+}
 
-    // add a bunch of g.bar elements
-    svg.selectAll(".bar")
-        .data(data)
-      .enter().append("g")
-        .attr("class", "bar");
 
-    // add the rectangles
-    svg.selectAll(".bar")
-        .append("rect")
-        .attr("x", function(d) { return x(d.before); })
-        .attr("y", function(d) { return y(d.main_category); })
-        .attr("width", function(d) { return x(d.after) - x(d.before)})
-        .attr("height", y.rangeBand());
+function add_bars (category, index) {
+      //add main category bars
+      var bar_svg = d3.select("#main-category-" + (index + 1)).append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", "40")
+    	    .attr('class', 'bar-svg')
 
-    // add the labels
-    svg.selectAll(".bar")
-        .append("text")
-        .attr("class", "backer")
-        .attr("x", function(d) { return x(0) })
-        .attr("y", function(d) { return y(d.main_category) + 0.5*y.rangeBand(); })
-        .attr("dy", "0.35em")
-        .text(function (d) {return d.main_category});
-    svg.selectAll(".bar")
-        .append("text")
-        .attr("x", function(d) { return x(0) })
-        .attr("y", function(d) { return y(d.main_category) + 0.5*y.rangeBand(); })
-        .attr("dy", "0.35em")
-        .text(function (d) {return d.main_category});
+      var bar_main = bar_svg.append('g')
+        	.attr('transform', 'translate(' + margin.left + ',' + 0 + ')')
+        	.attr('width', width)
+        	.attr('height', "40")
+        	.attr('class', 'bar')
+
+      bar_main.append("rect")
+          .attr("x", function(d) { return x(category.before); })
+          .attr("y", "0")
+          .attr("width", function(d) { return x(category.after) - x(category.before)})
+          .attr("height", "40");
+      bar_main.append("text")
+          .attr("class", "backer")
+          .attr("x", function(d) { return x(0) })
+          .attr("y", "20")
+          .attr("dy", "0.35em")
+          .text(function (d) {return category.main_category});
+      bar_main.append("text")
+          .attr("x", function(d) { return x(0) })
+          .attr("y", "20")
+          .attr("dy", "0.35em")
+          .text(function (d) {return category.main_category});
+
+      // add subcategory bars
+      var subcategories = category.sub_categories;
+      var sub_bars_svg = d3.select("#subcategory-" + (index + 1)).append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", (30*subcategories.length))
+          .attr('class', 'bar-svg')
+
+      subcategories.forEach(
+        function (d, index) {
+          console.log(d.name +": Before:"+d.before+" After:" + d.after);
+          var sub_bar_main = sub_bars_svg.append('g')
+              .attr('transform', 'translate(' + margin.left + ',' + 30*index + ')')
+              .attr('width', width)
+              .attr('height', 30)
+              .attr('class', 'sub-bar')
+
+          sub_bar_main.append("rect")
+              .attr("x", function() { return x(d.before); })
+              .attr("y", 0)
+              .attr("width", function() { return x(d.after) - x(d.before)})
+              .attr("height", "25");
+          sub_bar_main.append("text")
+              .attr("class", "backer")
+              .attr("x", function() { return x(0) })
+              .attr("y", "12")
+              .attr("dy", "0.35em")
+              .text(function () {return d.name});
+          sub_bar_main.append("text")
+              .attr("x", function() { return x(0) })
+              .attr("y", "12")
+              .attr("dy", "0.35em")
+              .text(function () {return d.name});
+      });
+}
+
+function render_bars(){
+  d3.selectAll(".bar-svg").remove();
+  data.forEach(add_bars);
 }
 
 // render bars and order data  when we first load the page
 order_data();
+data.forEach(add_wrappers);
 render_bars();
+//
+//data.forEach(draw_bars);
 
 // on filter change: get filter choices, update data, order data
 $(".filter").change(function(event){

@@ -81,7 +81,7 @@ function create_bar_chart_data(raw_data, filters) {
   // create main_category associative arrays
   var main_category_names = d3.set(d3.values(categories));
   var main_categories = [];
-  main_category_names.forEach(function(main_category_name, index, ar){
+  main_category_names.forEach(function(main_category_name){
     var d = {
       main_category: main_category_name,
       before: 0,
@@ -272,6 +272,17 @@ function order_data(before_change_after, increasing_decreasing) {
             return comparator(a.name, b.name);
         }
         return c;
+    });
+
+    data.forEach(function(category){
+      console.log(category.sub_categories);
+      category.sub_categories.sort(function (a, b) {
+          var c = comparator(a[before_change_after], b[before_change_after]);
+          if (c===0) {
+              return comparator(a.name, b.name);
+          }
+          return c;
+      });
     });
 }
 

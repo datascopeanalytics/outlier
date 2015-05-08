@@ -65,3 +65,16 @@
   fill: #333;
   font-weight: bold;
 }
+
+.panel-default> {
+  border-color: #fff;
+  .panel-heading{
+    background-color:#fff;
+    padding: 5px 0px;
+  }
+}
+
+.panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body{
+  border-top: 0px;
+  padding: 10px 0px;
+}

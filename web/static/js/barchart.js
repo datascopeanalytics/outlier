@@ -201,16 +201,16 @@ function add_bars (category, index) {
 }
 
 function render_bars(){
+  d3.selectAll(".panel-default").remove();
+  data.forEach(add_wrappers);
   d3.selectAll(".bar-svg").remove();
   data.forEach(add_bars);
 }
 
 // render bars and order data  when we first load the page
 order_data();
-data.forEach(add_wrappers);
 render_bars();
-//
-//data.forEach(draw_bars);
+
 
 // on filter change: get filter choices, update data, order data
 $(".filter").change(function(event){
@@ -236,6 +236,7 @@ function ordering_before_change_after(event) {
     var before_change_after = $.trim($(this).text());
     var increasing_decreasing = $.trim($("#increasing-decreasing label.active").text());
     order_data(before_change_after, increasing_decreasing);
+
     render_bars();
 }
 
@@ -243,6 +244,7 @@ function ordering_increasing_decreasing(event) {
     var before_change_after = $.trim($("#before-change-after label.active").text());
     var increasing_decreasing = $.trim($(this).text());
     order_data(before_change_after, increasing_decreasing);
+
     render_bars();
 }
 

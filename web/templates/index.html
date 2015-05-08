@@ -23,11 +23,11 @@
     <div class="col-md-6" id="ordering">
       <div class="centered">
         <div id="before-change-after" class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary">
-            <input type="radio" autocomplete="off">before
-          </label>
           <label class="btn btn-primary active">
-            <input type="radio" autocomplete="off" checked> change
+            <input type="radio" autocomplete="off" checked>before
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" autocomplete="off"> change
           </label>
           <label class="btn btn-primary">
             <input type="radio" autocomplete="off"> after
@@ -36,12 +36,12 @@
       </div>
       <div class="centered">
         <div id="increasing-decreasing" class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary active">
-            <input type="radio" autocomplete="off" checked>
-            <span class="glyphicon glyphicon-sort-by-attributes"></span> increasing
-          </label>
           <label class="btn btn-primary">
             <input type="radio" autocomplete="off">
+            <span class="glyphicon glyphicon-sort-by-attributes"></span> increasing
+          </label>
+          <label class="btn btn-primary active">
+            <input type="radio" autocomplete="off" checked>
             <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> decreasing
           </label>
         </div>
@@ -75,7 +75,7 @@
     <div class="panel-heading" role="tab" id="heading-{{index}}">
       <h4 class="panel-title">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{index}}" aria-expanded="false" aria-controls="collapse-{{index}}">
-          <div id="main-category-{{index}}"></div>
+          <div id="main-category-{{index}}" ></div>
         </a>
       </h4>
     </div>

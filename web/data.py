@@ -38,12 +38,15 @@ def get_survey_responses():
 
 def get_categories():
     categories = {}
-    with open(os.path.join(data_dir, 'categories.csv')) as csvfile:
+    with open(os.path.join(data_dir, 'categories_updated.csv')) as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             sub_category =  normalize(row['factor'])
-            main_category = normalize(row['category'])
-            categories[sub_category] = main_category
+            categories[sub_category] = {
+                'main_category': normalize(row['category']),
+                'display_name': row['display_name'],
+                'description': row['description'],
+                }
     return categories
 
 

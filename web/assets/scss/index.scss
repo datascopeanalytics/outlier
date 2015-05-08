@@ -10,34 +10,15 @@
 }
 
 // VISUALIZATION
-.bar {
-  rect {
-    fill: steelblue;
-  }
+.bar, .sub-bar  {
   text {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 12px;
     fill: #333;
-    text-anchor: middle;
+    text-anchor: start;
     &.backer {
       stroke: white;
-      stroke-width: 2px;
-    }
-  }
-}
-
-.sub-bar {
-  rect {
-    fill: green;
-  }
-  text {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    fill: #333;
-    text-anchor: middle;
-    &.backer {
-      stroke: white;
-      stroke-width: 2px;
+      stroke-width: 3px;
     }
   }
 }
@@ -51,12 +32,6 @@
   stroke: #000;
   stroke-width: 1px;
   shape-rendering: crispEdges;
-}
-
-.axis.y line {
-  stroke-dasharray: 10, 5;
-  stroke: white;
-  fill: none;
 }
 
 .xLabel{
@@ -74,7 +49,10 @@
   }
 }
 
+//got this from bootstrap css to override it
 .panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body{
-  border-top: 0px;
-  padding: 10px 0px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 5px 0px;
+  padding: 5px;
 }

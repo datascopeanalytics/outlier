@@ -20,7 +20,7 @@ var xAxis = d3.svg.axis()
     .orient("top")
     .tickFormat(function (d){
         if (d < 0){ return (d * -1);}
-        return d;
+          return d;
         })
 
 var svg_axis = d3.select("#x-axis")
@@ -65,21 +65,29 @@ function create_bar_chart_data(raw_data, filters) {
   // create sub_category associative arrays
   var names = d3.set(d3.merge([d3.keys(before), d3.keys(after)]))
   var sub_categories = [];
-  names.forEach(function (name) {
+  var main_category_names = [];
+  names.forEach(function (sub_category) {
+    console.log(categories[sub_category]);
+    console.log(categories[sub_category].main_category);
     var d = {
-      name: name,
-      main_category: categories[name],
-      before: -before[name] || 0,
-      after: after[name] || 0,
+      name: sub_category,
+      main_category: categories[sub_category].main_category,
+      display_name: categories[sub_category].display_name,
+      description: categories[sub_category].description,
+      before: -before[sub_category] || 0,
+      after: after[sub_category] || 0,
     }
+
     // d.before is already negative
     d.change = d.after + d.before;
 
+    console.log(d);
     sub_categories.push(d);
+    main_category_names.push(d.main_category);
   });
 
-  // create main_category associative arrays
-  var main_category_names = d3.set(d3.values(categories));
+  // add subcategories to main category groups
+  main_category_names = d3.set(main_category_names);
   var main_categories = [];
   main_category_names.forEach(function(main_category_name){
     var d = {
@@ -98,17 +106,20 @@ function create_bar_chart_data(raw_data, filters) {
     })
     // d.before is already negative
     d.change = d.after + d.before;
-    main_categories.push(d);
+    // add main category if the count isn't zero
+    if(d.before != 0 || d.after != 0){
+      main_categories.push(d);
+    }
   })
   return main_categories;
 }
 
 
 // configure the xAxis
-x.domain([
-  d3.min(data, function (d) {return d.before}),
-  d3.max(data, function (d) {return d.after})
-]).nice();
+var beforeMax = d3.min(data, function (d) {return d.before});
+var afterMax = d3.max(data, function (d) {return d.after});
+var totalMax = (- beforeMax) > afterMax ? (- beforeMax):afterMax;
+x.domain([-totalMax,totalMax]).nice();
 
 var xLabelHeight = "-27";
 svg_axis.append("g")
@@ -134,33 +145,39 @@ function add_wrappers (main_category, index){
       wrapper.html(collapse_template(main_category));
 }
 
-
 function add_bars (category, index) {
       //add main category bars
       var bar_svg = d3.select("#main-category-" + (index + 1)).append("svg")
           .attr("width", width + margin.left + margin.right)
-          .attr("height", "40")
+          .attr("height", "50")
     	    .attr('class', 'bar-svg')
 
       var bar_main = bar_svg.append('g')
         	.attr('transform', 'translate(' + margin.left + ',' + 0 + ')')
         	.attr('width', width)
-        	.attr('height', "40")
+        	.attr('height', "50")
         	.attr('class', 'bar')
 
       bar_main.append("rect")
           .attr("x", function(d) { return x(category.before); })
           .attr("y", "0")
-          .attr("width", function(d) { return x(category.after) - x(category.before)})
-          .attr("height", "40");
+          .attr("width", function(d) { return x(0) - x(category.before)})
+          .attr("height", "50")
+          .attr("fill","#008080");
+      bar_main.append("rect")
+          .attr("x", function(d) { return x(0); })
+          .attr("y", "0")
+          .attr("width", function(d) { return x(category.after) - x(0)})
+          .attr("height", "50")
+          .attr("fill","#5F9F9F");
       bar_main.append("text")
           .attr("class", "backer")
-          .attr("x", function(d) { return x(0) })
+          .attr("x", 0)
           .attr("y", "20")
           .attr("dy", "0.35em")
           .text(function (d) {return category.main_category});
       bar_main.append("text")
-          .attr("x", function(d) { return x(0) })
+          .attr("x", 0)
           .attr("y", "20")
           .attr("dy", "0.35em")
           .text(function (d) {return category.main_category});
@@ -174,7 +191,6 @@ function add_bars (category, index) {
 
       subcategories.forEach(
         function (d, index) {
-          console.log(d.name +": Before:"+d.before+" After:" + d.after);
           var sub_bar_main = sub_bars_svg.append('g')
               .attr('transform', 'translate(' + margin.left + ',' + 30*index + ')')
               .attr('width', width)
@@ -184,19 +200,27 @@ function add_bars (category, index) {
           sub_bar_main.append("rect")
               .attr("x", function() { return x(d.before); })
               .attr("y", 0)
-              .attr("width", function() { return x(d.after) - x(d.before)})
-              .attr("height", "25");
+              .attr("width", function() { return x(0) - x(d.before)})
+              .attr("height", "25")
+              .attr("fill","#CD7F32");
+          sub_bar_main.append("rect")
+              .attr("x", function() { return x(0); })
+              .attr("y", 0)
+              .attr("width", function() { return x(d.after) - x(0)})
+              .attr("height", "25")
+              .attr("fill","#E8A317");
           sub_bar_main.append("text")
               .attr("class", "backer")
-              .attr("x", function() { return x(0) })
+              //.attr("x", function() { return x(0) })
+              .attr("x", 0)
               .attr("y", "12")
               .attr("dy", "0.35em")
-              .text(function () {return d.name});
+              .text(function () {return d.display_name});
           sub_bar_main.append("text")
-              .attr("x", function() { return x(0) })
+          .attr("x", 0)
               .attr("y", "12")
               .attr("dy", "0.35em")
-              .text(function () {return d.name});
+              .text(function () {return d.display_name});
       });
 }
 
@@ -210,7 +234,6 @@ function render_bars(){
 // render bars and order data  when we first load the page
 order_data();
 render_bars();
-
 
 // on filter change: get filter choices, update data, order data
 $(".filter").change(function(event){
@@ -277,7 +300,6 @@ function order_data(before_change_after, increasing_decreasing) {
     });
 
     data.forEach(function(category){
-      console.log(category.sub_categories);
       category.sub_categories.sort(function (a, b) {
           var c = comparator(a[before_change_after], b[before_change_after]);
           if (c===0) {

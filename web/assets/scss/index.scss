@@ -2,8 +2,17 @@ $big-label-size: 14px;
 $small-label-size: 12px;
 
 //TITLE
-.centered {
-  text-align: center;
+.title{
+  .centered {
+    text-align: center;
+  }
+  .btn-info {
+      background: #008080;
+      border-color: #008080;
+  }
+  .btn-info:hover, .btn-info:focus {
+      background: #5F9F9F;
+  }
 }
 
 // CONTROLS

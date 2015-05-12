@@ -13,7 +13,7 @@ var subcategory_tooltip_template = Handlebars.compile(
     $("#subcategory-tooltip-template").html()
 );
 
-var margin = {top: 50, right: 20, bottom: 10, left: 20},
+var margin = {top: 60, right: 20, bottom: 10, left: 20},
     width = 1170 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
@@ -140,6 +140,11 @@ svg_axis.append("text")
     .attr("x", width - 20)
     .attr("y", xLabelHeight)
     .text("After");
+svg_axis.append("text")
+    .attr("class", "xLabel")
+    .attr("x", width/2- 140)
+    .attr("y", xLabelHeight)
+    .text("(Click on bars to open and close subcategories.)");
 
 
 function add_wrappers (main_category, index){

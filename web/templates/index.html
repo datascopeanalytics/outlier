@@ -61,6 +61,7 @@
 {{ super() }}
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
 {% endblock cdn_js %}
 
@@ -70,6 +71,7 @@
   var categories = {{categories|tojson}};
 </script>
 {% raw %}
+<!-- Collapse Template -->
 <script id="collapse-template" type="text/x-handlebars-template">
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="heading-{{index}}">
@@ -85,6 +87,19 @@
       </div>
     </div>
   </div>
+</script>
+
+<!-- Mouseover Templates -->
+<script id="main-category-tooltip-template" type="text/x-handlebars-template">
+  <h4>{{name}}</h4>
+  <p>Before: {{before}}  After: {{after}}</p>
+</script>
+
+<script id="subcategory-tooltip-template" type="text/x-handlebars-template">
+  <h4>{{name}}</h4>
+  <p>Before: {{before}}  After: {{after}}</p>
+  <hr>
+  <p>{{description}}</p>
 </script>
 {% endraw %}
 <script src="{{ url_for('static', filename='js/barchart.js') }}"></script>

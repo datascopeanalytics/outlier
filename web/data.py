@@ -26,7 +26,6 @@ def get_survey_responses():
     with open(os.path.join(data_dir, 'data.csv')) as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
-            print row.keys()
             data.append({
                 'before': normalize_to_list(row['Open-ended factors (beginning)']),
                 'after': normalize_to_list(row['Open-ended factors (end)']),
@@ -43,7 +42,7 @@ def get_categories():
         for row in csvreader:
             sub_category =  normalize(row['factor'])
             categories[sub_category] = {
-                'main_category': normalize(row['category']),
+                'main_category': row['category'],
                 'display_name': row['display_name'],
                 'description': row['description'],
                 }
@@ -51,8 +50,8 @@ def get_categories():
 
 
 if __name__ == "__main__":
-    # data = get_survey_responses()
+    data = get_survey_responses()
     # pprint(data)
-    # categories = get_categories()
-    pprint (categories)
-    print len(categories)
+    categories = get_categories()
+    # pprint (categories)
+    # print len(categories)

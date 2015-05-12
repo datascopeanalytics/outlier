@@ -1,3 +1,6 @@
+$big-label-size: 14px;
+$small-label-size: 12px;
+
 // CONTROLS
 .controls {
   .centered {
@@ -5,7 +8,7 @@
     margin-top: 1em;
   }
   .filter {
-    width: 200px;
+    width: 240px;
   }
 }
 
@@ -13,7 +16,7 @@
 .bar, .sub-bar  {
   text {
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 12px;
+    font-size: $small-label-size;
     fill: #333;
     text-anchor: start;
     &.backer {
@@ -21,6 +24,21 @@
       stroke-width: 3px;
     }
   }
+}
+
+.panel-default> {
+  border-color: #fff;
+  .panel-heading{
+    background-color:#fff;
+    padding: 5px 0px;
+  }
+}
+
+.panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body{
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 5px 0px;
+  padding: 5px 0px;
 }
 
 .axis text {
@@ -41,18 +59,38 @@
   font-weight: bold;
 }
 
-.panel-default> {
-  border-color: #fff;
-  .panel-heading{
-    background-color:#fff;
-    padding: 5px 0px;
-  }
-}
+//tooltips
+.d3-tip {
+  max-width: 200px;
 
-//got this from bootstrap css to override it
-.panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body{
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  margin: 5px 0px;
-  padding: 5px;
+  /* Northward tooltips */
+  &.n:after {
+    margin: -3px 0 0 0;
+    top: 100%;
+    left: 0;
+    text-align: center;
+  }
+
+  h4, p {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+  }
+  h4 {
+    font-size: $big-label-size;
+  }
+  p {
+    font-size: $small-label-size;
+    line-height: 1.5;
+  }
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #999;
+    margin: {
+      top: 0.5em;
+      bottom: 0.5em;
+    }
+    padding: 0;
+  }
 }

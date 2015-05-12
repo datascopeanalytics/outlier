@@ -5,6 +5,14 @@ var collapse_template = Handlebars.compile(
   $("#collapse-template").html()
 );
 
+var main_category_tooltip_template = Handlebars.compile(
+    $("#main-category-tooltip-template").html()
+);
+
+var subcategory_tooltip_template = Handlebars.compile(
+    $("#subcategory-tooltip-template").html()
+);
+
 var margin = {top: 50, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
@@ -67,8 +75,6 @@ function create_bar_chart_data(raw_data, filters) {
   var sub_categories = [];
   var main_category_names = [];
   names.forEach(function (sub_category) {
-    console.log(categories[sub_category]);
-    console.log(categories[sub_category].main_category);
     var d = {
       name: sub_category,
       main_category: categories[sub_category].main_category,
@@ -81,7 +87,6 @@ function create_bar_chart_data(raw_data, filters) {
     // d.before is already negative
     d.change = d.after + d.before;
 
-    console.log(d);
     sub_categories.push(d);
     main_category_names.push(d.main_category);
   });
@@ -146,18 +151,28 @@ function add_wrappers (main_category, index){
 }
 
 function add_bars (category, index) {
-      //add main category bars
+      //add main category svgs
       var bar_svg = d3.select("#main-category-" + (index + 1)).append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", "50")
     	    .attr('class', 'bar-svg')
 
+      //prepare the tooltip for the main categories
+      var main_tip = d3.tip()
+          .attr('class', 'd3-tip')
+          .direction('n')
+          .offset([-15,0])
+          .html(function(d) {
+              return main_category_tooltip_template(d);
+          });
+      bar_svg.call(main_tip);
+
+      //append g's, bars, and text to main category svgs
       var bar_main = bar_svg.append('g')
         	.attr('transform', 'translate(' + margin.left + ',' + 0 + ')')
         	.attr('width', width)
         	.attr('height', "50")
         	.attr('class', 'bar')
-
       bar_main.append("rect")
           .attr("x", function(d) { return x(category.before); })
           .attr("y", "0")
@@ -182,6 +197,21 @@ function add_bars (category, index) {
           .attr("dy", "0.35em")
           .text(function (d) {return category.main_category});
 
+      //add tooltip to main bar svgs on mouseover
+      bar_svg.selectAll("g")
+          .on('mouseover', function () {
+              var tip = {}
+              tip.name = category.main_category
+              tip.before = -category.before;
+              tip.after = category.after;
+              main_tip.show(tip)
+              d3.select(this).attr('stroke-width', 2)
+          })
+          .on('mouseout', function (d) {
+              main_tip.hide(d);
+              d3.select(this).attr('stroke-width', 0)
+          });
+
       // add subcategory bars
       var subcategories = category.sub_categories;
       var sub_bars_svg = d3.select("#subcategory-" + (index + 1)).append("svg")
@@ -189,6 +219,17 @@ function add_bars (category, index) {
           .attr("height", (30*subcategories.length))
           .attr('class', 'bar-svg')
 
+      //prepare tooltip for subcategory bars
+      var sub_tip = d3.tip()
+          .attr('class', 'd3-tip')
+          .direction('n')
+          .offset([-15,0])
+          .html(function(d) {
+              return subcategory_tooltip_template(d);
+          });
+      sub_bars_svg.call(sub_tip);
+
+      //for each subcategory: add g's, bars, and text
       subcategories.forEach(
         function (d, index) {
           var sub_bar_main = sub_bars_svg.append('g')
@@ -196,7 +237,6 @@ function add_bars (category, index) {
               .attr('width', width)
               .attr('height', 30)
               .attr('class', 'sub-bar')
-
           sub_bar_main.append("rect")
               .attr("x", function() { return x(d.before); })
               .attr("y", 0)
@@ -211,16 +251,45 @@ function add_bars (category, index) {
               .attr("fill","#E8A317");
           sub_bar_main.append("text")
               .attr("class", "backer")
-              //.attr("x", function() { return x(0) })
               .attr("x", 0)
               .attr("y", "12")
               .attr("dy", "0.35em")
               .text(function () {return d.display_name});
           sub_bar_main.append("text")
-          .attr("x", 0)
+              .attr("x", 0)
               .attr("y", "12")
               .attr("dy", "0.35em")
               .text(function () {return d.display_name});
+
+          //add tooltip to main bar svgs on mouseover
+          sub_bar_main.selectAll("rect")
+              .on('mouseover', function () {
+                  var tip = {}
+                  tip.name = d.display_name;
+                  tip.before = -d.before;
+                  tip.after = d.after;
+                  tip.description = d.description;
+                  sub_tip.show(tip)
+                  d3.select(this).attr('stroke-width', 2)
+              })
+              .on('mouseout', function (d) {
+                  sub_tip.hide(d);
+                  d3.select(this).attr('stroke-width', 0)
+              });
+        sub_bar_main.selectAll("text")
+            .on('mouseover', function () {
+                var tip = {}
+                tip.name = d.display_name;
+                tip.before = -d.before;
+                tip.after = d.after;
+                tip.description = d.description;
+                sub_tip.show(tip)
+                d3.select(this).attr('stroke-width', 2)
+            })
+            .on('mouseout', function (d) {
+                sub_tip.hide(d);
+                d3.select(this).attr('stroke-width', 0)
+            });
       });
 }
 
@@ -237,7 +306,7 @@ render_bars();
 
 // on filter change: get filter choices, update data, order data
 $(".filter").change(function(event){
-    var filter_choices = [];
+    var tipilter_choices = [];
     $(".filter option:selected" ).each(function(i, obj){
       filter_choices.push(obj.innerText);
     })

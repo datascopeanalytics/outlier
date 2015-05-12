@@ -1,15 +1,47 @@
 $big-label-size: 14px;
 $small-label-size: 12px;
 
+//TITLE
+.centered {
+  text-align: center;
+}
+
 // CONTROLS
 .controls {
-  .centered {
-    text-align: center;
-    margin-top: 1em;
+  .ordering {
+    text-align: right;
+    .bottom {
+      margin-top: 0.5em;
+    }
   }
+
   .filter {
     width: 240px;
   }
+}
+
+
+
+.btn {
+    border-radius: 1px;
+    border-color: #CD7F32;
+}
+
+.btn-primary {
+    background: #E8A317;
+    color: #ffffff;
+    border-color: #CD7F32;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background: #FFC125;
+    border-color: #CD7F32;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background: #CD7F32;
+    box-shadow: none;
+    border-color: #CD7F32;
 }
 
 // VISUALIZATION

@@ -13,8 +13,8 @@ var subcategory_tooltip_template = Handlebars.compile(
     $("#subcategory-tooltip-template").html()
 );
 
-var margin = {top: 50, right: 10, bottom: 10, left: 10},
-    width = 960 - margin.left - margin.right,
+var margin = {top: 50, right: 20, bottom: 10, left: 20},
+    width = 1170 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
@@ -306,7 +306,7 @@ render_bars();
 
 // on filter change: get filter choices, update data, order data
 $(".filter").change(function(event){
-    var tipilter_choices = [];
+    var filter_choices = [];
     $(".filter option:selected" ).each(function(i, obj){
       filter_choices.push(obj.innerText);
     })

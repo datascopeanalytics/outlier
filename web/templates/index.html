@@ -8,6 +8,11 @@
 {% block main %}
 {{ super() }}
 <div class="container">
+  <div class="title">
+    <div class="centered col-md-6 col-md-offset-3">
+      <h2>What influences how you use Everyday Math on a daily basis?</h2>
+    </div>
+  </div>
   <div class="row controls">
     <div class="col-md-6">
       <select class="filter" data-placeholder="Choose filter" multiple tab-index="-1">
@@ -20,8 +25,8 @@
         {% endfor %}
       </select>
     </div>
-    <div class="col-md-6" id="ordering">
-      <div class="centered">
+    <div class="ordering col-md-6">
+      <div>
         <div id="before-change-after" class="btn-group" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" autocomplete="off" checked>before
@@ -34,7 +39,7 @@
           </label>
         </div>
       </div>
-      <div class="centered">
+      <div class="bottom">
         <div id="increasing-decreasing" class="btn-group" data-toggle="buttons">
           <label class="btn btn-primary">
             <input type="radio" autocomplete="off">
@@ -49,9 +54,8 @@
     </div>
   </div>
   <div class="row visualization">
-    <svg id="x-axis"></svg>
-    <div id="barchart" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    </div>
+      <svg id="x-axis"></svg>
+      <div id="barchart" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
   </div>
 </div>
 {% endblock main %}
@@ -60,8 +64,8 @@
 {% block cdn_js %}
 {{ super() }}
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
 {% endblock cdn_js %}
 

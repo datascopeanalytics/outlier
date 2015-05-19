@@ -10,7 +10,7 @@ data_dir = os.path.join(project_root, "Dropbox", "Background")
 
 
 def normalize(s):
-    return s.strip().lower()
+    return s.strip()
 
 
 def normalize_to_list(s):
@@ -23,7 +23,7 @@ def normalize_to_list(s):
 def get_survey_responses():
     # load the csv file and cast the variables into sane names to be used in javascript
     data = []
-    with open(os.path.join(data_dir, 'data.csv')) as csvfile:
+    with open(os.path.join(data_dir, 'updated_data.csv')) as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
             data.append({
@@ -37,10 +37,10 @@ def get_survey_responses():
 
 def get_categories():
     categories = {}
-    with open(os.path.join(data_dir, 'categories_updated.csv')) as csvfile:
+    with open(os.path.join(data_dir, 'updated_categories.csv')) as csvfile:
         csvreader = csv.DictReader(csvfile)
         for row in csvreader:
-            sub_category =  normalize(row['factor'])
+            sub_category =  normalize(row['display_name'])
             categories[sub_category] = {
                 'main_category': row['category'],
                 'display_name': row['display_name'],

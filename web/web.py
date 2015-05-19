@@ -27,9 +27,9 @@ def get_chosen_options(raw_data):
 
     # sort grades
     chosen_options["grade"] = sorted(list(chosen_options["grade"]))
-    if('k' in chosen_options["grade"]):
-        chosen_options["grade"].remove('k')
-        chosen_options["grade"].insert(0,'k')
+    if('K' in chosen_options["grade"]):
+        chosen_options["grade"].remove('K')
+        chosen_options["grade"].insert(0,'K')
 
     # sort districts
     chosen_options["district"] = sorted(list(chosen_options["district"]))

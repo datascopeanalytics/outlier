@@ -2,13 +2,15 @@
   <head>
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     {% block cdn_css %}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
     {% endblock cdn_css %}
 
     {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/chosen-bootstrap.css') }}"> -->
     {% endblock css %}
   </head>
 

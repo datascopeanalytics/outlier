@@ -6,21 +6,24 @@ footer.footer {
 
 body {
   padding-top: 125px;
+  padding-bottom:0px;
+  margin:0px;
 }
 
 .navbar{
+  margin-bottom: -30px;
   background-color: #fff;
   border: 0px dotted #fff;
   border-bottom: 1px solid #E8E8E8;
-  .button{
-    .btn-info {
-        background: #008080;
-        border-color: #008080;
-    }
-    .btn-info:hover, .btn-info:focus {
-        background: #5F9F9F;
-    }
-  }
+  // .button{
+  //   .btn-info {
+  //       background: #c0392b;
+  //       border-color: #c0392b;
+  //   }
+  //   .btn-info:hover, .btn-info:focus {
+  //       background: #e74c3c;
+  //   }
+  // }
 }
 
 .nav-center {
@@ -38,15 +41,6 @@ body {
     float:right;
 }
 
-.title{
-  .centered {
-    text-align: center;
-  }
-  .btn-info {
-      background: #008080;
-      border-color: #008080;
-  }
-  .btn-info:hover, .btn-info:focus {
-      background: #5F9F9F;
-  }
+h1 {
+  font-family: 'Roboto', sans-serif;
 }

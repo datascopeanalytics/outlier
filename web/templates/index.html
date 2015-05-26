@@ -3,47 +3,13 @@
 {% block css %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Kalam:400,300'>
 {% endblock css %}
 
 {% block main %}
 {{ super() }}
 <div class="container">
-  <!-- <div class="title">
-    <div class="centered col-md-6 col-md-offset-3">
-      <h2>What influences how you use Everyday Math on a daily basis?</h2>
-    </div>
-    <div class="centered col-md-12">
-      <button id="model-summary-button" type="button" class="btn btn-info model-summary-button" data-toggle="modal" data-target="#model-summary-modal">
-        <span >Learn more.</span>
-      </button>
-    </div>
-    <div class="modal fade" id="model-summary-modal" tabindex="-1" role="dialog" aria-labelledby="model-summary-label" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="model-summary-label">About This Visualization</h4>
-          </div>
-          <div class="modal-body">
-            <div id="model-summary">
-            <p>This visualization was developed with teacher interview data collected in 2013 as part of a curriculum implementation research study funded by the National Science Foundation (#1109595). The purpose of this study was to describe and explain similarities and differences in how and why teachers across different settings used and adapted the instructional materials from the Everyday Mathematics (EM) curriculum program.</p>
-            <p>In the Spring of 2013, we interviewed a sample of 75 K-5 teachers from four school districts who had adopted EM as the “official” district mathematics curriculum between 5 and 10 years ago. We were interested in identifying the most important influences affecting why and to what extent these teachers used, or did not use, the various tools, activities, materials, and teaching strategies that were part of EM.</p>
-            <p>The interviews began and ended with the same question: “In general, what are some of the main things that influence how you use EM on a day-to-day basis, and why?”  In between, interviewers guided teachers through a 45-minute to 1-hour semi-structured conversation asking teachers to reflect on the multiple influences on their teaching practice. Across interviews, the teachers identified multiple influences, ranging from EM design features, to school and district policies, to state standards, to student characteristics, to individual characteristics of the teachers themselves.</p>
-            <p>All teachers shared a unique story of learning, using, and adapting the EM materials to meet their students’ needs. The resulting visualization displays all influences identified by all teachers before and after the interview, in response to the first and last question. After having the opportunity to reflect, many teachers reported different influences at the end of the interview compared to the beginning. Depicting this data illuminates the complexities of curriculum use and highlights the need to attend to both the individual and the context in designing ongoing professional learning opportunities for teachers.</p>
-            <p>To learn more about implementation research at Outlier, please visit our website: <a href="http://outlier.uchicago.edu/research.">http://outlier.uchicago.edu/research</a></p>
-            <p>For questions about this study or for more information, please contact Amy Cassata, Ph.D. (Principal Investigator) at <a href="mailto:acassata@uchicago.edu" target="_top">acassata@uchicago.edu</a>.</p>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <div class="row story">
+  <div class="story row">
     <div class="col-md-8">
       <h3>This is what happened</h3>
       <p>We asked 75 teachers questions and it was awesome. More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text </p>
@@ -53,70 +19,76 @@
       <img width="300px" height="200px"></img>
     </div>
   </div>
-  <div class="row controls">
-    <div class="col-md-6">
-      <select class="filter" data-placeholder="Choose filter" multiple tab-index="-1">
-        {% for group, options in chosen_options.iteritems() %}
-        <optgroup label="{{group}}">
+  <div class="row col-md-12">
+    <div class="col-md-3 controls">
+      <div class="row filter-controls">
+        <span class="kalam">Select filter to see the responses of teachers by grade or locations:</br></span>
+        <select class="filter" data-placeholder="Filter by grade or school district" multiple tab-index="-1">
+          {% for group, options in chosen_options.iteritems() %}
+          <optgroup label="{{group}}">
           {% for option in options %}
           <option value="{{option}}">{{option}}</option>
           {% endfor %}
-        </optgroup>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="ordering col-md-6">
-      <div>
+          </optgroup>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="order-controls">
+      <div class="row">
+        <span class="kalam">Order by the 'before' or 'after' response count and by 'increasing' or 'descreasing' to see how the responses changed:</br></span>
+      </div>
+      <div class="row">
         <div id="before-change-after" class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary active">
+          <label class="btn btn-danger active">
             <input type="radio" autocomplete="off" checked>before
           </label>
-          <label class="btn btn-primary">
-            <input type="radio" autocomplete="off"> change
-          </label>
-          <label class="btn btn-primary">
+          <label class="btn btn-danger">
             <input type="radio" autocomplete="off"> after
           </label>
         </div>
       </div>
-      <div class="bottom">
-        <div id="increasing-decreasing" class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary">
+      <div class="row">
+        <div class="btn-group bottom" id="increasing-decreasing" data-toggle="buttons">
+          <label class="btn btn-danger">
             <input type="radio" autocomplete="off">
             <span class="glyphicon glyphicon-sort-by-attributes"></span> increasing
           </label>
-          <label class="btn btn-primary active">
+          <label class="btn btn-danger active">
             <input type="radio" autocomplete="off" checked>
             <span class="glyphicon glyphicon-sort-by-attributes-alt"></span> decreasing
           </label>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row details">
-    <div class="col-md-4">
-      <div class="left">
-        <h3>BEFORE</h3>
-        <p><i>Number of teachers with responses in each category before the interview.</i></p>
+      </div>
+      <div class="row click-instructions">
+        <span class="kalam">Click on the main category bars to see more specific teacher responses.</br></span>
+        <img style="margin-left:100px;" width="130px" height="60px" src={{ url_for('static', filename='img/pencil-arrow-skinny.png') }}></img>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="centered">
-        <h3>INTERVIEW</h3>
-        <p><i>45 minutes of discussion about EM.</i></p>
+    <div class="col-md-9 visualization">
+      <div class="row axis-labels">
+        <div class="col-md-4">
+          <div class="left">
+            <h3>Before</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="centered">
+            <h3>Interview</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="right">
+            <h3>After</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row chart">
+        <svg id="x-axis-before"></svg>
+        <svg id="x-axis-after"></svg>
+        <div id="barchart" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="right">
-        <h3>AFTER</h3>
-        <p><i>Number of teachers with responses in each category after the interview.</i></p>
-      </div>
-    </div>
-  </div>
-  <div class="row visualization">
-      <svg id="x-axis-before"></svg>
-      <svg id="x-axis-after"></svg>
-      <div id="barchart" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
   </div>
 </div>
 {% endblock main %}

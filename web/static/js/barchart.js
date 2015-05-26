@@ -13,29 +13,44 @@ var subcategory_tooltip_template = Handlebars.compile(
     $("#subcategory-tooltip-template").html()
 );
 
-var margin = {top: 60, right: 20, bottom: 10, left: 20},
+var margin = {top: 30, right: 10, bottom: 10, left: 10},
+    middle = 150,
     width = 1170 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
-var x = d3.scale.linear()
-    .range([0, width])
+var xBefore = d3.scale.linear()
+    .range([0, width/2 - middle - margin.left])
 
-var y = d3.scale.ordinal()
-    .rangeRoundBands([0, height], .2);
+var xAfter = d3.scale.linear()
+    .range([0, width/2 - middle - margin.right])
 
-var xAxis = d3.svg.axis()
-    .scale(x)
+var xAxisBefore = d3.svg.axis()
+    .scale(xBefore)
     .orient("top")
     .tickFormat(function (d){
         if (d < 0){ return (d * -1);}
           return d;
         })
 
-var svg_axis = d3.select("#x-axis")
-    .attr("width", width + margin.left + margin.right)
+var xAxisAfter = d3.svg.axis()
+    .scale(xAfter)
+    .orient("top")
+    .tickFormat(function (d){
+        if (d < 0){ return (d * -1);}
+          return d;
+        })
+
+var svg_axis_before = d3.select("#x-axis-before")
+    .attr("width", width/2 - margin.left)
     .attr("height", margin.top)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var svg_axis_after = d3.select("#x-axis-after")
+    .attr("width", width/2 - margin.left)
+    .attr("height", margin.top)
+  .append("g")
+    .attr("transform", "translate(" + (middle -10) + "," + margin.top + ")");
 
 //initialize data
 var data = create_bar_chart_data(raw_data);
@@ -124,27 +139,36 @@ function create_bar_chart_data(raw_data, filters) {
 var beforeMax = d3.min(data, function (d) {return d.before});
 var afterMax = d3.max(data, function (d) {return d.after});
 var totalMax = (- beforeMax) > afterMax ? (- beforeMax):afterMax;
-x.domain([-totalMax,totalMax]).nice();
+xBefore.domain([-totalMax,0]).nice();
+xAfter.domain([0,totalMax]).nice();
 
 var xLabelHeight = "-27";
-svg_axis.append("g")
+svg_axis_before.append("g")
     .attr("class", "x axis")
-    .call(xAxis);
-svg_axis.append("text")
-    .attr("class", "xLabel")
-    .attr("x", "-7")
-    .attr("y", xLabelHeight)
-    .text("Before");
-svg_axis.append("text")
-    .attr("class", "xLabel")
-    .attr("x", width - 20)
-    .attr("y", xLabelHeight)
-    .text("After");
-svg_axis.append("text")
-    .attr("class", "xLabel")
-    .attr("x", width/2- 140)
-    .attr("y", xLabelHeight)
-    .text("(Click on bars to open and close subcategories.)");
+    .call(xAxisBefore);
+svg_axis_after.append("g")
+    .attr("class", "x axis")
+    .call(xAxisAfter);
+// svg_axis_before.append("text")
+//     .attr("class", "xLabel")
+//     .attr("x", "-7")
+//     .attr("y", xLabelHeight)
+//     .text("Before");
+// // svg_axis_before.append("text")
+// //     .attr("class", "xLabel")
+// //     .attr("x", width/2 - 40)
+// //     .attr("y", xLabelHeight)
+// //     .text("After");
+// svg_axis_before.append("text")
+//     .attr("class", "xLabel")
+//     .attr("x", width/3- 200)
+//     .attr("y", xLabelHeight)
+//     .text("(Click on bars to open and close subcategories.)");
+// svg_axis_after.append("text")
+//     .attr("class", "xLabel")
+//     .attr("x", "-7")
+//     .attr("y", xLabelHeight)
+//     .text("Before");
 
 
 function add_wrappers (main_category, index){
@@ -179,27 +203,31 @@ function add_bars (category, index) {
         	.attr('height', "50")
         	.attr('class', 'bar')
       bar_main.append("rect")
-          .attr("x", function(d) { return x(category.before); })
+          .attr("x", function(d) { return xBefore(category.before); })
           .attr("y", "0")
-          .attr("width", function(d) { return x(0) - x(category.before)})
+          .attr("width", function(d) { return xBefore(0) - xBefore(category.before)})
+          //.attr('transform', 'translate(' + -125 + ',' + 0 + ')')
           .attr("height", "50")
           .attr("fill","#008080");
       bar_main.append("rect")
-          .attr("x", function(d) { return x(0); })
+          .attr("x", function(d) { return xAfter(0); })
           .attr("y", "0")
-          .attr("width", function(d) { return x(category.after) - x(0)})
+          .attr("width", function(d) { return xAfter(category.after) - xAfter(0)})
+          .attr('transform', 'translate(' + 700 + ',' + 0 + ')')
           .attr("height", "50")
           .attr("fill","#5F9F9F");
       bar_main.append("text")
           .attr("class", "backer")
-          .attr("x", 0)
+          .attr("x", width/2)
           .attr("y", "20")
           .attr("dy", "0.35em")
+          .attr("text-anchor", "middle")
           .text(function (d) {return category.main_category});
       bar_main.append("text")
-          .attr("x", 0)
+          .attr("x", width/2)
           .attr("y", "20")
           .attr("dy", "0.35em")
+          .attr("text-anchor", "middle")
           .text(function (d) {return category.main_category});
 
       //add tooltip to main bar svgs on mouseover
@@ -243,25 +271,26 @@ function add_bars (category, index) {
               .attr('height', 30)
               .attr('class', 'sub-bar')
           sub_bar_main.append("rect")
-              .attr("x", function() { return x(d.before); })
+              .attr("x", function() { return xBefore(d.before); })
               .attr("y", 0)
-              .attr("width", function() { return x(0) - x(d.before)})
+              .attr("width", function() { return xBefore(0) - xBefore(d.before)})
               .attr("height", "25")
               .attr("fill","#CD7F32");
           sub_bar_main.append("rect")
-              .attr("x", function() { return x(0); })
+              .attr("x", function() { return xAfter(0); })
               .attr("y", 0)
-              .attr("width", function() { return x(d.after) - x(0)})
+              .attr("width", function() { return xAfter(d.after) - xAfter(0)})
+              .attr('transform', 'translate(' + 700 + ',' + 0 + ')')
               .attr("height", "25")
               .attr("fill","#E8A317");
           sub_bar_main.append("text")
               .attr("class", "backer")
-              .attr("x", 0)
+              .attr("x", width/2)
               .attr("y", "12")
               .attr("dy", "0.35em")
               .text(function () {return d.display_name});
           sub_bar_main.append("text")
-              .attr("x", 0)
+              .attr("x", width/2)
               .attr("y", "12")
               .attr("dy", "0.35em")
               .text(function () {return d.display_name});

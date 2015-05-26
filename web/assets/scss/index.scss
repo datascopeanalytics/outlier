@@ -1,4 +1,4 @@
-$big-label-size: 14px;
+$big-label-size: 16px;
 $small-label-size: 12px;
 
 //TITLE
@@ -13,6 +13,18 @@ $small-label-size: 12px;
   .btn-info:hover, .btn-info:focus {
       background: #5F9F9F;
   }
+}
+
+.centered {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
 }
 
 // CONTROLS
@@ -57,9 +69,9 @@ $small-label-size: 12px;
 .bar, .sub-bar  {
   text {
     font-family: Helvetica, Arial, sans-serif;
-    font-size: $small-label-size;
+    font-size: $big-label-size;
     fill: #333;
-    text-anchor: start;
+    text-anchor: middle;
     &.backer {
       stroke: white;
       stroke-width: 3px;
@@ -134,4 +146,14 @@ $small-label-size: 12px;
     }
     padding: 0;
   }
+}
+
+.story{
+  background-color: #E8E8E8;
+  margin: 0px -80px 10px;
+  padding: 10px 80px;
+}
+
+.details{
+  padding: 0px 0px;
 }

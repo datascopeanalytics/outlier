@@ -8,7 +8,7 @@
 {% block main %}
 {{ super() }}
 <div class="container">
-  <div class="title">
+  <!-- <div class="title">
     <div class="centered col-md-6 col-md-offset-3">
       <h2>What influences how you use Everyday Math on a daily basis?</h2>
     </div>
@@ -41,6 +41,16 @@
           </div>
         </div>
       </div>
+    </div>
+  </div> -->
+  <div class="row story">
+    <div class="col-md-8">
+      <h3>This is what happened</h3>
+      <p>We asked 75 teachers questions and it was awesome. More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text More text more text </p>
+    </div>
+    <div class="col-md-4">
+      <h3>This is a v. nice picture</h3>
+      <img width="300px" height="200px"></img>
     </div>
   </div>
   <div class="row controls">
@@ -83,8 +93,29 @@
       </div>
     </div>
   </div>
+  <div class="row details">
+    <div class="col-md-4">
+      <div class="left">
+        <h3>BEFORE</h3>
+        <p><i>Number of teachers with responses in each category before the interview.</i></p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="centered">
+        <h3>INTERVIEW</h3>
+        <p><i>45 minutes of discussion about EM.</i></p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="right">
+        <h3>AFTER</h3>
+        <p><i>Number of teachers with responses in each category after the interview.</i></p>
+      </div>
+    </div>
+  </div>
   <div class="row visualization">
-      <svg id="x-axis"></svg>
+      <svg id="x-axis-before"></svg>
+      <svg id="x-axis-after"></svg>
       <div id="barchart" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
   </div>
 </div>

@@ -3,3 +3,50 @@ footer.footer {
     height: 1em;
   }
 }
+
+body {
+  padding-top: 125px;
+}
+
+.navbar{
+  background-color: #fff;
+  border: 0px dotted #fff;
+  border-bottom: 1px solid #E8E8E8;
+  .button{
+    .btn-info {
+        background: #008080;
+        border-color: #008080;
+    }
+    .btn-info:hover, .btn-info:focus {
+        background: #5F9F9F;
+    }
+  }
+}
+
+.nav-center {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin:0;
+    text-align:center;
+    float:left;
+}
+
+.nav-right {
+  padding-top: 45px;
+    margin:0;
+    text-align:right;
+    float:right;
+}
+
+.title{
+  .centered {
+    text-align: center;
+  }
+  .btn-info {
+      background: #008080;
+      border-color: #008080;
+  }
+  .btn-info:hover, .btn-info:focus {
+      background: #5F9F9F;
+  }
+}

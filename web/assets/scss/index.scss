@@ -33,7 +33,7 @@ $small-label-size: 14px;
 
 //STORY
 .story{
-  background-color: #555;
+  background-color: #008080;
   margin: 0px -80px 10px;
   padding: 10px 80px;
   color: #fff;
@@ -41,9 +41,8 @@ $small-label-size: 14px;
 
 // CONTROLS
 .controls {
-  border-right:2px dotted #707070;
-  height: 570px;
-  padding:0px 30px 0px 0px;
+  height: 620px;
+  padding:0px 10px 0px 0px;
   .row{
     margin: 0px;
   }
@@ -55,7 +54,7 @@ $small-label-size: 14px;
     margin-right: 10px;
     margin-left:-5px;
     .filter {
-      width: 240px;
+      width: 170px;
     }
   }
   .order-controls{
@@ -64,45 +63,48 @@ $small-label-size: 14px;
     margin-left:-5px;
     border-bottom: 1px dotted #707070;
     border-top: 1px dotted #707070;
+    .second {
+      margin-top:10px;
+    }
     #before-change-after{
       margin-top: 5px;
-      margin-left: 30px;
+      margin-left: 0px;
       .btn{
-        width:90px;
+        width:82px;
         margin-bottom:5px;
       }
     }
     #increasing-decreasing{
-      margin-left: 15px;
+      margin-left: 0px;
+      margin-top:5px;
+      .btn{
+        width:82px;
+        padding: 6px 6px;
+      }
     }
   }
   .click-instructions{
     padding-top:20px;
   }
 }
-// .btn-primary {
-//     background: #E8A317;
-//     color: #ffffff;
-//     border-color: #CD7F32;
-// }
-//
-// .btn-primary:hover, .btn-primary:focus {
-//     background: #FFC125;
-//     border-color: #CD7F32;
-// }
-//
-// .btn-primary:active, .btn-primary.active {
-//     background: #CD7F32;
-//     box-shadow: none;
-//     border-color: #CD7F32;
-// }
+
 
 // VISUALIZATION
 .visualization{
+  border-left:2px dotted #707070;
+  padding:0px 0px 0px 30px;
+  h3{
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size:24px;
+  }
+  h4{
+    font-size:16px;
+    font-weight:normal;
+  }
   .row{
     margin: 0px;
   }
-  padding:0px 0px 0px 30px;
   .col-md-4{
     padding:0px;
   }
@@ -125,7 +127,6 @@ $small-label-size: 14px;
   .bar, .sub-bar  {
     text {
       font-family: 'Roboto Condensed', sans-serif;
-      //font-family: Helvetica, Arial, sans-serif;
       fill: #333;
       text-anchor: middle;
       &.backer {
@@ -134,11 +135,9 @@ $small-label-size: 14px;
       }
     }
     .bar text{
-      //font-family: 'Roboto Condensed', sans-serif;
       size: $big-label-size;
     }
     .sub-bar text{
-      //font-family: 'Roboto Condensed', sans-serif;
       font-size: $small-label-size;
     }
   }
@@ -152,12 +151,10 @@ $small-label-size: 14px;
     font-size:$small-label-size;
   }
   .axis-labels {
+    margin-top: 40px;
     font-family: 'Roboto', sans-serif;
-    //font-family: 'Roboto Condensed';
-    h3 {
-      font-size:20px;
-    }
     p {
+      font-weight:bold;
       font-size:$small-label-size;
     }
   }

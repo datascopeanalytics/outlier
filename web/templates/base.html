@@ -9,24 +9,26 @@
     {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-chosen.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,300italic'>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400,300,700'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,300italic'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400,300,700'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Kalam:400,300'>
     {% endblock css %}
   </head>
 
   {% block body %}
   <body>
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-      <div class="navbar-header col-md-3">
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+      <div class="navbar-header col-xs-3">
         <a class="navbar-brand" href="#">
           <img alt="Outlier" src="{{ url_for('static', filename='img/outlier_logo.jpg') }}" width="200px">
         </a>
       </div>
-      <div class="nav-center col-md-6">
-              <h1>How Teachers Really Feel about Everyday Math</h1>
+      <div class="nav-center col-xs-6">
+              <h1>What Happens When Teachers Have Time to Reflect?</h1>
+              <h2>How 75 teachers responded to questions about Everyday Math at the beginning and end of a 45-minute interview.</h2>
             </div>
-        <div class="nav-right col-md-2 button">
+        <div class="nav-right col-xs-2 button">
                 <button id="model-summary-button" type="button" class="btn btn-danger model-summary-button" data-toggle="modal" data-target="#model-summary-modal">
                   <span >Learn more.</span>
                 </button>
@@ -42,12 +44,12 @@
                     </div>
                     <div class="modal-body">
                       <div id="model-summary">
-                      <p>This visualization was developed with teacher interview data collected in 2013 as part of a curriculum implementation research study funded by the National Science Foundation (#1109595). The purpose of this study was to describe and explain similarities and differences in how and why teachers across different settings used and adapted the instructional materials from the Everyday Mathematics (EM) curriculum program.</p>
-                      <p>In the Spring of 2013, we interviewed a sample of 75 K-5 teachers from four school districts who had adopted EM as the “official” district mathematics curriculum between 5 and 10 years ago. We were interested in identifying the most important influences affecting why and to what extent these teachers used, or did not use, the various tools, activities, materials, and teaching strategies that were part of EM.</p>
-                      <p>The interviews began and ended with the same question: “In general, what are some of the main things that influence how you use EM on a day-to-day basis, and why?”  In between, interviewers guided teachers through a 45-minute to 1-hour semi-structured conversation asking teachers to reflect on the multiple influences on their teaching practice. Across interviews, the teachers identified multiple influences, ranging from EM design features, to school and district policies, to state standards, to student characteristics, to individual characteristics of the teachers themselves.</p>
-                      <p>All teachers shared a unique story of learning, using, and adapting the EM materials to meet their students’ needs. The resulting visualization displays all influences identified by all teachers before and after the interview, in response to the first and last question. After having the opportunity to reflect, many teachers reported different influences at the end of the interview compared to the beginning. Depicting this data illuminates the complexities of curriculum use and highlights the need to attend to both the individual and the context in designing ongoing professional learning opportunities for teachers.</p>
-                      <p>To learn more about implementation research at Outlier, please visit our website: <a href="http://outlier.uchicago.edu/research.">http://outlier.uchicago.edu/research</a></p>
-                      <p>For questions about this study or for more information, please contact Amy Cassata, Ph.D. (Principal Investigator) at <a href="mailto:acassata@uchicago.edu" target="_top">acassata@uchicago.edu</a>.</p>
+                        <p>This visualization was developed with teacher interview data collected in 2013 as part of a curriculum implementation research study funded by the National Science Foundation (#1109595). The purpose of this study was to describe and explain similarities and differences in how and why teachers across different settings used and adapted the instructional materials from the Everyday Mathematics (EM) curriculum program.</p>
+                        <p>In the Spring of 2013, we interviewed a sample of 75 K-5 teachers from four school districts who had adopted EM as the “official” district mathematics curriculum between 5 and 10 years ago. We were interested in identifying the most important influences affecting why and to what extent these teachers used, or did not use, the various tools, activities, materials, and teaching strategies that were part of EM.</p>
+                        <p>The interviews began and ended with the same question: “In general, what are some of the main things that influence how you use EM on a day-to-day basis, and why?”  In between, interviewers guided teachers through a 45-minute to 1-hour semi-structured conversation asking teachers to reflect on the multiple influences on their teaching practice. Across interviews, the teachers identified multiple influences, ranging from EM design features, to school and district policies, to state standards, to student characteristics, to individual characteristics of the teachers themselves.</p>
+                        <p>All teachers shared a unique story of learning, using, and adapting the EM materials to meet their students’ needs. The resulting visualization displays all influences identified by all teachers before and after the interview, in response to the first and last question. After having the opportunity to reflect, many teachers reported different influences at the end of the interview compared to the beginning. Depicting this data illuminates the complexities of curriculum use and highlights the need to attend to both the individual and the context in designing ongoing professional learning opportunities for teachers.</p>
+                        <p>To learn more about implementation research at Outlier, please visit our website: <a href="http://outlier.uchicago.edu/research.">http://outlier.uchicago.edu/research</a></p>
+                        <p>For questions about this study or for more information, please contact Amy Cassata, Ph.D. (Principal Investigator) at <a href="mailto:acassata@uchicago.edu" target="_top">acassata@uchicago.edu</a>.</p>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -59,19 +61,6 @@
           </div>
     </div>
   </nav>
-    <!-- <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Brand</a>
-    </div>
-    </div>
-  </nav> -->
 
     {% block header %}
     {% endblock header %}
@@ -100,12 +89,6 @@
               <img alt="Brand" src="{{ url_for('static', filename='img/datascope-logo.png') }}">
             </a>
           </div>
-
-          <!-- <p class="navbar-text">Design and analysis by
-            <a href="http://datascopeanalytics.com">
-              <img src="{{ url_for('static', filename='img/datascope-logo.png') }}" />
-            </a>
-          </p> -->
         </div>
       </nav>
     </footer>

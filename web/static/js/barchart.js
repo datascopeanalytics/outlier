@@ -15,7 +15,7 @@ var subcategory_tooltip_template = Handlebars.compile(
 
 var margin = {top: 20, right: 5, bottom: 5, left: 5},
     middle = 95,
-    width = 710 - margin.left - margin.right,
+    width = 805 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
 
 var xBefore = d3.scale.linear()
@@ -181,7 +181,7 @@ function add_bars (category, index) {
       //add main category svgs
       var bar_svg = d3.select("#main-category-" + (index + 1)).append("svg")
           .attr("width", width + middle + margin.left + margin.right)
-          .attr("height", "50")
+          .attr("height", "40")
     	    .attr('class', 'bar-svg')
 
       //prepare the tooltip for the main categories
@@ -198,20 +198,20 @@ function add_bars (category, index) {
       var bar_main = bar_svg.append('g')
         	.attr('transform', 'translate(' + margin.left + ',' + 0 + ')')
         	.attr('width', width)
-        	.attr('height', "50")
+        	.attr('height', "40")
         	.attr('class', 'bar')
       bar_main.append("rect")
           .attr("x", function(d) { return xBefore(category.before); })
           .attr("y", "0")
           .attr("width", function(d) { return xBefore(0) - xBefore(category.before)})
-          .attr("height", "50")
+          .attr("height", "40")
           .attr("fill","#008080");
       bar_main.append("rect")
           .attr("x", function(d) { return xAfter(0); })
           .attr("y", "0")
           .attr("width", function(d) { return xAfter(category.after) - xAfter(0)})
           .attr('transform', 'translate(' + (width/2 + middle/2 + middle) + ',' + 0 + ')')
-          .attr("height", "50")
+          .attr("height", "40")
           .attr("fill","#008080");
       bar_main.append("text")
           .attr("class", "backer")

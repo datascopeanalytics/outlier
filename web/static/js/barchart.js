@@ -1,18 +1,20 @@
 //make filter chosen style
 $(".filter").chosen();
 
+
+//set up handelbar templates
 var collapse_template = Handlebars.compile(
   $("#collapse-template").html()
 );
-
 var main_category_tooltip_template = Handlebars.compile(
     $("#main-category-tooltip-template").html()
 );
-
 var subcategory_tooltip_template = Handlebars.compile(
     $("#subcategory-tooltip-template").html()
 );
 
+
+//initialize chart variables
 var margin = {top: 20, right: 5, bottom: 5, left: 5},
     middle = 95,
     width = 805 - margin.left - margin.right,
@@ -55,10 +57,8 @@ var svg_axis_after = d3.select("#x-axis-after")
   .append("g")
     .attr("transform", "translate(" + middle + "," + margin.top + ")");
 
-//initialize data
-var data = create_bar_chart_data(raw_data);
 
-//increment number of items in category
+//increment number of items in main categories and subcategories
 function update_counter(sub_category_counter, category_counter, values) {
   current_main_categories = []
   values.forEach(function (value) {
@@ -86,7 +86,8 @@ function update_counter(sub_category_counter, category_counter, values) {
   })
 }
 
-// count categories in raw data, use filters if selected
+
+//create main categories and subcategories
 function create_bar_chart_data(raw_data, filters) {
   var sub_category_before = {};
   var sub_category_after = {};
@@ -94,6 +95,7 @@ function create_bar_chart_data(raw_data, filters) {
   var main_categories_after = {};
 
   raw_data.forEach(function (d) {
+    //use filters if selected
     if (filters){
       if(filters.indexOf(d.grade) > -1 || filters.indexOf(d.district) > -1 ){
         update_counter(sub_category_before, main_categories_before, d.before);
@@ -106,7 +108,7 @@ function create_bar_chart_data(raw_data, filters) {
     }
   })
 
-  // create sub_category groups
+  //create sub_category groups
   var names = d3.set(d3.merge([d3.keys(sub_category_before), d3.keys(sub_category_after)]))
   var sub_categories = [];
   names.forEach(function (sub_category) {
@@ -118,14 +120,13 @@ function create_bar_chart_data(raw_data, filters) {
       before: -sub_category_before[sub_category] || 0,
       after: sub_category_after[sub_category] || 0,
     }
-
     // d.before is already negative
     d.change = d.after + d.before;
 
     sub_categories.push(d);
   });
 
-  // add subcategories to main category groups
+  //create main_category groups
   var main_category_names = d3.set(d3.merge([d3.keys(main_categories_before), d3.keys(main_categories_after)]))
   var main_categories = [];
   main_category_names.forEach(function(main_category_name){
@@ -136,13 +137,15 @@ function create_bar_chart_data(raw_data, filters) {
       sub_categories: [],
     }
 
+    // d.before is already negative
+    d.change = d.after + d.before;
+
+    //add sub_categories to main_categories
     sub_categories.forEach(function(sub_category){
       if(sub_category.main_category == d.main_category){
         d.sub_categories.push(sub_category)
       }
     })
-    // d.before is already negative
-    d.change = d.after + d.before;
 
     // add main category if the count isn't zero
     if(d.before != 0 || d.after != 0){
@@ -153,22 +156,7 @@ function create_bar_chart_data(raw_data, filters) {
 }
 
 
-// configure the xAxis
-var beforeMax = d3.min(data, function (d) {return d.before});
-var afterMax = d3.max(data, function (d) {return d.after});
-var totalMax = (- beforeMax) > afterMax ? (- beforeMax):afterMax;
-xBefore.domain([-totalMax,0]).nice();
-xAfter.domain([0,totalMax]).nice();
-
-var xLabelHeight = "-27";
-svg_axis_before.append("g")
-    .attr("class", "x axis")
-    .call(xAxisBefore);
-svg_axis_after.append("g")
-    .attr("class", "x axis")
-    .call(xAxisAfter);
-
-
+//create collapsible bar wrappers
 function add_wrappers (main_category, index){
       var wrapper = d3.select('#barchart')
           .append('div')
@@ -177,6 +165,8 @@ function add_wrappers (main_category, index){
       wrapper.html(collapse_template(main_category));
 }
 
+
+//add bars to wrappers
 function add_bars (category, index) {
       //add main category svgs
       var bar_svg = d3.select("#main-category-" + (index + 1)).append("svg")
@@ -324,36 +314,6 @@ function add_bars (category, index) {
       });
 }
 
-function render_bars(){
-  d3.selectAll(".panel-default").remove();
-  data.forEach(add_wrappers);
-  d3.selectAll(".bar-svg").remove();
-  data.forEach(add_bars);
-}
-
-// render bars and order data  when we first load the page
-order_data();
-render_bars();
-
-// on filter change: get filter choices, update data, order data
-$(".filter").change(function(event){
-    var filter_choices = [];
-    $(".filter option:selected" ).each(function(i, obj){
-      filter_choices.push(obj.innerText);
-    })
-    if (filter_choices.length == 0){
-      data = create_bar_chart_data(raw_data);
-    }else{
-      data = create_bar_chart_data(raw_data, filter_choices);
-    }
-
-    order_data();
-    render_bars();
-});
-
-// ordering radio button clicked
-$("#before-change-after .btn-danger").on("click", ordering_before_change_after);
-$("#increasing-decreasing .btn-danger").on("click", ordering_increasing_decreasing);
 
 function ordering_before_change_after(event) {
     var before_change_after = $.trim($(this).text());
@@ -363,6 +323,7 @@ function ordering_before_change_after(event) {
     render_bars();
 }
 
+
 function ordering_increasing_decreasing(event) {
     var before_change_after = $.trim($("#before-change-after label.active").text());
     var increasing_decreasing = $.trim($(this).text());
@@ -370,6 +331,7 @@ function ordering_increasing_decreasing(event) {
 
     render_bars();
 }
+
 
 function order_data(before_change_after, increasing_decreasing) {
     var before_change_after = before_change_after || $.trim($("#before-change-after label.active").text());
@@ -409,6 +371,56 @@ function order_data(before_change_after, increasing_decreasing) {
       });
     });
 }
+
+
+function render_bars(){
+  d3.selectAll(".panel-default").remove();
+  data.forEach(add_wrappers);
+  d3.selectAll(".bar-svg").remove();
+  data.forEach(add_bars);
+}
+
+
+//initialize data
+var data = create_bar_chart_data(raw_data);
+
+// configure the xAxis
+var beforeMax = d3.min(data, function (d) {return d.before});
+var afterMax = d3.max(data, function (d) {return d.after});
+var totalMax = (- beforeMax) > afterMax ? (- beforeMax):afterMax;
+xBefore.domain([-totalMax,0]).nice();
+xAfter.domain([0,totalMax]).nice();
+svg_axis_before.append("g")
+    .attr("class", "x axis")
+    .call(xAxisBefore);
+svg_axis_after.append("g")
+    .attr("class", "x axis")
+    .call(xAxisAfter);
+
+//order data and render bars when we first load the page
+order_data();
+render_bars();
+
+// ordering radio button clicked
+$("#before-change-after .btn-danger").on("click", ordering_before_change_after);
+$("#increasing-decreasing .btn-danger").on("click", ordering_increasing_decreasing);
+
+// on filter change: get filter choices, update data, order data
+$(".filter").change(function(event){
+    var filter_choices = [];
+    $(".filter option:selected" ).each(function(i, obj){
+      filter_choices.push(obj.innerText);
+    })
+    if (filter_choices.length == 0){
+      data = create_bar_chart_data(raw_data);
+    }else{
+      data = create_bar_chart_data(raw_data, filter_choices);
+    }
+
+    order_data();
+    render_bars();
+});
+
 
 //DATA FORMAT
 //

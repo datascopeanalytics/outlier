@@ -7,11 +7,11 @@
     {% endblock cdn_css %}
 
     {% block css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-chosen.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,300italic'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400,300,700'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Kalam:400,300'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-chosen.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     {% endblock css %}
   </head>
 
@@ -26,7 +26,6 @@
       </div>
       <div class="nav-center col-xs-6">
               <h1>What Happens When Teachers Have Time to Reflect?</h1>
-              <h2>How 75 teachers responded to questions about Everyday Math at the beginning and end of a 45-minute interview.</h2>
             </div>
         <div class="nav-right col-xs-2 button">
                 <button id="model-summary-button" type="button" class="btn btn-danger model-summary-button" data-toggle="modal" data-target="#model-summary-modal">

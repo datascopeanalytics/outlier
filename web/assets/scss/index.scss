@@ -6,8 +6,11 @@ $small-label-size: 14px;
   .kalam {
     font-family: 'Kalam', cursive;
   }
-  .roboto {
+  .roboto-condensed {
     font-family: 'Roboto Condensed', sans-serif;
+  }
+  .roboto {
+    font-family: 'Roboto', sans-serif;
   }
   .centered {
     text-align: center;
@@ -32,17 +35,20 @@ $small-label-size: 14px;
 }
 
 //STORY
-.story{
+.overview{
   background-color: #008080;
   margin: 0px -80px 10px;
   padding: 10px 80px;
   color: #fff;
+  h3{
+    font-size:30px;
+  }
 }
 
 // CONTROLS
 .controls {
-  height: 620px;
   padding:0px 10px 0px 0px;
+  // margin-top:170px;
   .row{
     margin: 0px;
   }
@@ -85,9 +91,11 @@ $small-label-size: 14px;
   }
   .click-instructions{
     padding-top:20px;
+    img{
+      margin-left:100px;
+    }
   }
 }
-
 
 // VISUALIZATION
 .visualization{
@@ -105,9 +113,6 @@ $small-label-size: 14px;
   .row{
     margin: 0px;
   }
-  .col-md-4{
-    padding:0px;
-  }
   .panel-title{
     font-size: $big-label-size;
   }
@@ -124,6 +129,11 @@ $small-label-size: 14px;
     margin: 5px 0px;
     padding: 5px 0px;
   }
+
+  .panel-group {
+    margin-bottom: 0px;
+  }
+
   .bar, .sub-bar  {
     text {
       font-family: 'Roboto Condensed', sans-serif;
@@ -160,7 +170,7 @@ $small-label-size: 14px;
   }
 }
 
-//tooltips
+//TOOLTIPS
 .d3-tip {
   max-width: 200px;
 

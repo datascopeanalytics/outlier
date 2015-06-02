@@ -1,27 +1,16 @@
-footer.footer {
-  img {
-    height: 1em;
-  }
-}
-
-// body {
-//   //padding-top: 210px;
-//   padding-bottom:0px;
-//   margin:0px;
-// }
-//
-.container{
-  width: 1170px !important;
-}
-
+//ALL
 #main {
   margin-top: 30px;
 }
 
+.container{
+  width: 1170px !important;  //Make unresponsive
+}
+
+//NAV BAR
 .navbar{
   margin-bottom: -30px;
   background-color: #fff;
-  border: 0px dotted #fff;
   border-bottom: 1px solid #E8E8E8;
 }
 
@@ -43,13 +32,10 @@ footer.footer {
 h1 {
   font-family: 'Roboto', sans-serif;
   font-size: 36px;
+  font-weight:bold;
 }
 
-h2 {
-  font-family: 'Kalam', sans-serif;
-  font-size: 20px;
-}
-
+//MODAL
 #model-summary-label {
   font-family: 'Roboto', sans-serif;
   font-size:24px;
@@ -58,4 +44,11 @@ h2 {
 
 #model-summary p{
   font-size: 15px;
+}
+
+//FOOTER
+footer.footer {
+  img {
+    height: 1em;
+  }
 }

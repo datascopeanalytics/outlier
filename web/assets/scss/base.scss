@@ -35,6 +35,11 @@ h1 {
   font-weight:bold;
 }
 
+h4{
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
 //MODAL
 #model-summary-label {
   font-family: 'Roboto', sans-serif;
@@ -44,6 +49,26 @@ h1 {
 
 #model-summary p{
   font-size: 15px;
+}
+
+//MODAL TABLE
+table {
+  margin:15px;
+  border:1px solid black;
+  .header td{
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    font-family: 'Roboto', sans-serif;
+  }
+  td {
+    width:10%;
+    padding:5px;
+    text-align: left;
+    font-size: 15px;
+  }
+  .larger{
+    width:15%;
+  }
 }
 
 //FOOTER

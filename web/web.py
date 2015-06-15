@@ -50,5 +50,7 @@ if __name__ == '__main__':
     _scss.set_hooks()
 
     # run the web server
-    app.run()
-    freezer.freeze()
+    if len(sys.argv) > 1 and sys.argv[1] == "build":
+        freezer.freeze()
+    else:
+        app.run()

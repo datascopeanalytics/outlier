@@ -75,7 +75,6 @@ function update_counter(sub_category_counter, category_counter, values) {
     main_category = categories[value].main_category;
     if((current_main_categories.indexOf(main_category,0))<0){
       current_main_categories.push(main_category);
-      console.log(current_main_categories);
       if(main_category in category_counter){
         category_counter[main_category] += 1;
       }

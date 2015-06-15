@@ -1,10 +1,14 @@
+import sys
+
 from flask import Flask
 from flask import render_template
 from flask.ext.scss import Scss
+from flask_frozen import Freezer
 
 import data
 
 app = Flask(__name__)
+freezer = Freezer(app)
 
 # configure flask extensions
 _scss = Scss(app, static_dir='static', asset_dir='assets')
@@ -47,3 +51,4 @@ if __name__ == '__main__':
 
     # run the web server
     app.run()
+    freezer.freeze()

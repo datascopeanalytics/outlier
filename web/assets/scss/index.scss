@@ -117,7 +117,7 @@ $small-label-size: 14px;
     font-size: $big-label-size;
   }
   .panel-default> {
-    border-color: #fff;
+    border-color: #fff !important;
     .panel-heading{
       background-color:#fff;
       padding: 5px 0px;

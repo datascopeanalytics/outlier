@@ -1,0 +1,288 @@
+<html>
+  <head>
+    <title>Outlier EM Visualization</title>
+    <link rel="shortcut icon" href="static/img/favicon.ico">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,300italic'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400,300,700'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Kalam:400,300'>
+    <link rel="stylesheet" href="static/css/bootstrap-chosen.css">
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="static/css/index.css">
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+      <div class="navbar-header col-xs-3">
+        <a class="navbar-brand" href="#">
+          <img alt="Outlier" src="static/img/outlier_logo.jpg" width="200px">
+        </a>
+      </div>
+      <div class="nav-center col-xs-6">
+              <h1>What Happens When Teachers Have Time to Reflect?</h1>
+            </div>
+        <div class="nav-right col-xs-2 button">
+                <button id="model-summary-button" type="button" class="btn btn-danger model-summary-button" data-toggle="modal" data-target="#model-summary-modal">
+                  <span >Learn more.</span>
+                </button>
+              </div>
+              <div class="modal fade" id="model-summary-modal" tabindex="-1" role="dialog" aria-labelledby="model-summary-label" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h4 class="modal-title" id="model-summary-label">About This Visualization</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div id="model-summary">
+                        <p>This visualization was developed with teacher interview data collected in 2013 as part of a curriculum implementation research study funded by the National Science Foundation (#1109595). The purpose of this study was to describe and explain similarities and differences in how and why teachers across different settings used and adapted the instructional materials from the Everyday Mathematics (EM) curriculum program.</p>
+                        <p>In the Spring of 2013, we interviewed a sample of 75 K-5 teachers from four school districts who had been using Everyday Mathematics district-wide for 5 or more years. We were interested in identifying the most important influences affecting why and to what extent these teachers used, or did not use, the various tools, activities, materials, and teaching strategies that were part of EM.</p>
+                        <h4 class="centered">Participating School Districts</h4>
+                        <table>
+                          <tr class="header">
+                            <td></td>
+                            <td class="larger">Total Number of Elementary Schools</td>
+                            <td class="larger">Number of Schools Participating in the Interview</td>
+                            <td>Locale</td>
+                            <td>US Region</td>
+                            <td>EM Full Adoption Year</td>
+                          </tr>
+                          <tr>
+                            <td>District A</td>
+                            <td>90</td>
+                            <td>9</td>
+                            <td>Urban</td>
+                            <td>West</td>
+                            <td>2002</td>
+                          </tr>
+                          <tr>
+                            <td>District B</td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>Suburban</td>
+                            <td>Midwest</td>
+                            <td>2006</td>
+                          </tr>
+                          <tr>
+                            <td>District C</td>
+                            <td>12</td>
+                            <td>3</td>
+                            <td>Urban</td>
+                            <td>Northeast</td>
+                            <td>2008</td>
+                          </tr>
+                          <tr>
+                            <td>District D</td>
+                            <td>11</td>
+                            <td>5</td>
+                            <td>Urban</td>
+                            <td>Midwest</td>
+                            <td>2005</td>
+                          </tr>
+                        </table>
+                        <p>The interviews began and ended by asking teachers to mention some of the main things that influence how they use EM on a day-to-day basis. In between, interviewers guided teachers through a 45-minute semi-structured conversation asking teachers to reflect on the multiple influences on their teaching practice. Across interviews, the teachers identified multiple influences, ranging from EM design features, to school and district policies, to state standards, to student characteristics, to individual characteristics of the teachers themselves.</p>
+                        <p>All teachers shared a unique story of learning, using, and adapting the EM materials to meet their students’ needs. The resulting visualization displays all influences identified by all teachers before and after the interview, in response to the first and last question. After having the opportunity to reflect, many teachers reported different influences at the end of the interview compared to the beginning. Depicting this data illuminates the complexities of curriculum use and highlights the need to attend to both the individual and the context in designing ongoing professional learning opportunities for teachers.</p>
+                        <p>To learn more about implementation research at Outlier, please visit our website: <a href="http://outlier.uchicago.edu/research.">http://outlier.uchicago.edu/research</a></p>
+                        <p>For questions about this study or for more information, please contact Amy Cassata, Ph.D. (Principal Investigator) at <a href="mailto:acassata@uchicago.edu" target="_top">acassata@uchicago.edu</a>.</p>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+                </div>
+          </div>
+    </div>
+  </nav>
+<div id="main">
+<div class="container">
+  <div class="row overview">
+    <div class="col-xs-12">
+      <h3 class="roboto-condensed centered">We asked 75 teachers to describe the main factors that influence their use of the Everyday Mathematics curriculum at both the beginning and end of a 45-minute interview.</h3>
+      <br>
+      <h3 class="roboto-condensed centered">This visualization shows how their responses changed.</h3>
+      <br>
+    </div>
+  </div>
+  <div class="row col-xs-12">
+    <div class="col-xs-2 controls">
+      <div class="row filter-controls">
+        <span class="kalam">Filter by grade or school district:</br></span>
+        <select class="filter" data-placeholder="Select filter" multiple tab-index="-1">
+
+          <optgroup label="grade">
+
+          <option value="K">K</option>
+
+          <option value="1">1</option>
+
+          <option value="2">2</option>
+
+          <option value="3">3</option>
+
+          <option value="4">4</option>
+
+          <option value="5">5</option>
+
+          </optgroup>
+
+          <optgroup label="district">
+
+          <option value="District A">District A</option>
+
+          <option value="District B">District B</option>
+
+          <option value="District C">District C</option>
+
+          <option value="District D">District D</option>
+
+          </optgroup>
+
+        </select>
+      </div>
+      <div class="order-controls">
+        <span class="kalam">Sort by most frequent responses before or after:</br></span>
+        <div id="before-change-after" class="btn-group" data-toggle="buttons">
+          <label class="btn btn-danger active">
+            <input type="radio" autocomplete="off" checked>before
+          </label>
+          <label class="btn btn-danger">
+            <input type="radio" autocomplete="off"> after
+          </label>
+        </div>
+        <div class="second row">
+          <span class="kalam">Change order:</br></span>
+          <div class="btn-group bottom" id="increasing-decreasing" data-toggle="buttons">
+            <label class="btn btn-danger">
+            <input type="radio" autocomplete="off">
+            increasing
+            </label>
+            <label class="btn btn-danger active">
+            <input type="radio" autocomplete="off" checked>
+            decreasing
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row click-instructions">
+        <span class="kalam">Click on the teal bars for specific responses within each category.</br></span>
+        <img width="110px" height="60px" src=static/img/pencil-arrow-skinny.png></img>
+      </div>
+    </div>
+    <div class="col-xs-10 visualization">
+      <div class="row">
+        <div class="col-xs-4">
+          <h3>Beginning Question</h3>
+          <h4>"In general, what are some of the main things that influence how you use EM on a day-to-day basis?"</h4>
+        </div>
+        <div class="col-xs-4 centered">
+          <h3>45-Minute Interview</h3>
+          <!-- Meeting Filled icon by Icons8 -->
+          <img src="https://cdn.icons8.com/iOS7/PNG/100/Time_And_Date/meeting_filled-100.png" title="Meeting Filled" width="70"</img>
+        </div>
+        <div class="col-xs-4 right">
+          <h3>Ending Question</h3>
+          <h4>"Out of everything we've talked about, what would you say are the most important two or three things that influence how you use EM?"</h4>
+        </div>
+      </div>
+      <div class="row axis-labels">
+        <div class="col-xs-4">
+          <div class="left">
+            <p># of Responses at Beginning</p>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="centered">
+            <p>Response Categories</p>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="right">
+            <p># of Responses at End</p>
+          </div>
+        </div>
+      </div>
+      <div class="row chart">
+        <svg id="x-axis-before"></svg>
+        <svg id="x-axis-after"></svg>
+        <div id="barchart" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+    <footer class="footer">
+      <nav class="navbar navbar-default">
+        <div class="container">
+
+          <div class="navbar-header">
+            <a class="navbar-brand" href="http://outlier.uchicago.edu">
+              <img alt="Outlier" src="static/img/outlier_logo.png">
+            </a>
+          </div>
+
+          <div class="navbar-header pull-right">
+            <p class="navbar-text">
+              design and analysis by
+            </p>
+            <a class="navbar-brand" href="http://datascopeanalytics.com">
+              <img alt="Datascope" src="static/img/datascope-logo.png">
+            </a>
+          </div>
+        </div>
+      </nav>
+    </footer>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
+
+<script>
+  var raw_data = [{"after": ["Personality", "Formative Assessment", "Teacher Collaboration"], "before": ["Student Learning Needs"], "district": "District D", "grade": "2"}, {"after": ["EM Perceived Value", "Teaching Philosophy"], "before": ["Formative Assessment", "EM Learning Objectives", "EM Past Experience", "Student Learning Needs"], "district": "District D", "grade": "1"}, {"after": ["Parent Feedback", "Student Learning Needs"], "before": ["EM Lesson Guide"], "district": "District D", "grade": "5"}, {"after": ["Student Learning Needs", "EM Past Experience", "EM Digital Tools", "Lesson Preparation"], "before": ["Student Learning Needs", "EM Perceived Value"], "district": "District D", "grade": "3"}, {"after": ["Student Behavior", "Time Constraints"], "before": ["Student Behavior"], "district": "District D", "grade": "4"}, {"after": ["Formative Assessment", "Student Learning Needs", "Time Constraints", "Lesson Preparation"], "before": ["Student Learning Needs"], "district": "District D", "grade": "2"}, {"after": ["Student Learning Needs", "Teaching Philosophy"], "before": ["Time Constraints", "Classroom Routines"], "district": "District D", "grade": "K"}, {"after": ["District Mastery Criteria", "Teaching Philosophy"], "before": ["Time Constraints", "District Mastery Criteria", "Student Learning Needs"], "district": "District D", "grade": "2"}, {"after": ["Teaching Attitude"], "before": ["Classroom Routines", "District Mandates", "Student Learning Needs", "Formative Assessment"], "district": "District D", "grade": "2"}, {"after": ["Student Learning Needs", "District Pacing Guide"], "before": ["District Pacing Guide", "Time Constraints", "District Assessments"], "district": "District D", "grade": "5"}, {"after": ["Teacher Collaboration", "Teaching Style"], "before": ["Teacher Collaboration", "District Instructional Support", "District Report Card"], "district": "District D", "grade": "1"}, {"after": ["Personality"], "before": ["District Instructional Support", "EM Digital Tools", "District Report Card", "Teacher Collaboration", "Time Constraints", "Access to Materials", "Common Core State Standards"], "district": "District D", "grade": "2"}, {"after": ["Student Learning Needs", "Classroom Routines", "EM Familiarity and Understanding"], "before": ["Student Learning Needs"], "district": "District D", "grade": "5"}, {"after": ["EM Familiarity and Understanding"], "before": ["Student Behavior", "EM Lesson Guide", "Time of Day"], "district": "District D", "grade": "K"}, {"after": ["EM Perceived Value", "Time Constraints", "Teaching Philosophy"], "before": ["District Mandates", "EM Familiarity and Understanding"], "district": "District D", "grade": "4"}, {"after": ["Personal Organization", "Lesson Preparation", "EM Digital Tools"], "before": ["Time Constraints", "EM Learning Objectives", "Student Behavior", "Student Learning Needs"], "district": "District B", "grade": "2"}, {"after": ["Teaching Philosophy"], "before": ["EM Perceived Value"], "district": "District B", "grade": "1"}, {"after": ["Student Learning Needs"], "before": ["Student Learning Needs", "EM Lesson Guide"], "district": "District B", "grade": "2"}, {"after": ["Teaching Attitude", "EM Digital Tools", "Teaching Style", "District Assessments"], "before": ["Teacher Collaboration", "District Mandates", "EM Learning Objectives"], "district": "District B", "grade": "4"}, {"after": ["Student Learning Needs", "Formative Assessment"], "before": ["Time Constraints", "District Guidelines"], "district": "District B", "grade": "5"}, {"after": ["District Pacing Guide", "EM Lesson Guide", "Teacher Collaboration", "Parent Engagement", "District Report Card", "District Materials Support"], "before": ["District Materials Support"], "district": "District B", "grade": "5"}, {"after": ["Teaching Attitude", "Student Learning Needs", "Common Core State Standards"], "before": ["EM Lesson Guide", "Student Learning Needs", "EM Perceived Value"], "district": "District B", "grade": "2"}, {"after": ["Teaching Style", "Student Behavior", "Lesson Preparation", "Personal Organization"], "before": ["Student Learning Needs", "Student Behavior", "Time Constraints"], "district": "District B", "grade": "K"}, {"after": ["EM Perceived Value", "Lesson Preparation", "Teaching Attitude", "Teaching Philosophy", "District Instructional Leaders"], "before": ["District Mandates", "District Instructional Leaders", "Principal Advocacy", "EM Perceived Value"], "district": "District B", "grade": "K"}, {"after": ["Teaching Philosophy", "Student Learning Needs"], "before": ["District Mandates", "District Guidelines", "Student Learning Needs"], "district": "District B", "grade": "5"}, {"after": ["EM Perceived Value", "District Instructional Support"], "before": ["EM Lesson Guide", "EM Perceived Value"], "district": "District B", "grade": "K"}, {"after": ["Personal Organization", "Time Constraints", "Student Behavior"], "before": ["Student Learning Needs", "Lesson Preparation", "EM Lesson Guide"], "district": "District B", "grade": "1"}, {"after": ["EM Perceived Value", "EM Familiarity and Understanding", "Teaching Philosophy"], "before": ["District Mandates", "EM Perceived Value"], "district": "District B", "grade": "5"}, {"after": ["Student Learning Needs", "Time Constraints"], "before": ["Time Constraints", "Student Learning Needs", "EM Lesson Guide"], "district": "District B", "grade": "4"}, {"after": ["EM Learning Objectives", "Time Constraints", "Lesson Preparation"], "before": ["EM Learning Objectives", "Time Constraints"], "district": "District B", "grade": "1"}, {"after": ["Student Learning Needs", "Formative Assessment", "EM Past Experience", "Principal Advocacy", "District Pacing Guide"], "before": ["Student Learning Needs", "Common Core State Standards"], "district": "District B", "grade": "5"}, {"after": ["Time Constraints", "Student Learning Needs"], "before": ["Student Learning Needs", "Time Constraints"], "district": "District B", "grade": "2"}, {"after": ["Student Learning Needs"], "before": ["EM Perceived Value"], "district": "District B", "grade": "3"}, {"after": ["Student Learning Needs", "EM Past Experience", "District Mastery Criteria"], "before": ["Common Core State Standards", "Formative Assessment", "EM Past Experience"], "district": "District B", "grade": "K"}, {"after": ["Student Learning Needs", "Time Constraints", "District Pacing Guide"], "before": ["Time Constraints", "Student Learning Needs"], "district": "District C", "grade": "5"}, {"after": ["Student Learning Needs", "District Pacing Guide"], "before": ["District Mandates", "Common Core State Standards", "Student Learning Needs"], "district": "District C", "grade": "2"}, {"after": ["Teaching Attitude", "EM Perceived Value"], "before": ["Fit with Standards", "Fit with Existing Practices"], "district": "District C", "grade": "4"}, {"after": ["Student Learning Needs", "District Pacing Guide", "Parent Engagement", "Teaching Philosophy"], "before": ["Lesson Preparation", "EM Lesson Guide", "Teaching Attitude", "Time Flexibility", "EM Perceived Value", "EM Familiarity and Understanding"], "district": "District C", "grade": "5"}, {"after": ["Student Learning Needs"], "before": ["District Pacing Guide", "EM Lesson Guide", "EM Past Experience", "Student Learning Needs", "Common Core State Standards"], "district": "District C", "grade": "1"}, {"after": ["Student Learning Needs", "EM Lesson Guide", "Lesson Preparation", "Formative Assessment"], "before": ["Student Learning Needs", "Formative Assessment"], "district": "District A", "grade": "5"}, {"after": ["Formative Assessment", "District Guidelines"], "before": ["Student Learning Needs", "Formative Assessment"], "district": "District A", "grade": "3"}, {"after": ["EM Lesson Guide", "EM Learning Objectives", "Lesson Preparation"], "before": ["Time Constraints", "Student Learning Needs"], "district": "District A", "grade": "2"}, {"after": ["Student Learning Needs", "Common Core State Standards"], "before": ["Student Learning Needs", "District Guidelines", "Formative Assessment"], "district": "District A", "grade": "1"}, {"after": ["Time Constraints", "District Instructional Support", "Common Core State Standards"], "before": ["Student Learning Needs", "EM Learning Objectives"], "district": "District A", "grade": "4"}, {"after": ["Teacher Collaboration", "EM Familiarity and Understanding", "Teaching Philosophy", "Student Learning Needs"], "before": ["EM Lesson Guide", "Teaching Philosophy", "Time Constraints"], "district": "District A", "grade": "2"}, {"after": ["Student Behavior", "Formative Assessment"], "before": ["Student Behavior", "Paraprofessional", "Student Learning Needs", "EM Digital Tools"], "district": "District A", "grade": "2"}, {"after": ["District Mastery Criteria", "District Pacing Guide", "Time Flexibility", "Principal Advocacy"], "before": ["Student Learning Needs", "Time Constraints", "Lesson Preparation"], "district": "District A", "grade": "5"}, {"after": ["District Instructional Leaders", "District Instructional Support", "Lesson Preparation", "Teacher Collaboration"], "before": ["EM Familiarity and Understanding", "Common Core State Standards", "Student Learning Needs", "State Standards", "EM Perceived Value"], "district": "District A", "grade": "3"}, {"after": ["Student Behavior"], "before": ["Lesson Preparation"], "district": "District A", "grade": "1"}, {"after": ["EM Past Experience", "EM Perceived Value"], "before": ["EM Lesson Guide"], "district": "District A", "grade": "4"}, {"after": ["District Mandates", "EM Perceived Value", "District Instructional Support", "Teacher Collaboration"], "before": ["EM Familiarity and Understanding", "Expert Advice"], "district": "District A", "grade": "4"}, {"after": ["District Pacing Guide", "Student Learning Needs", "Formative Assessment"], "before": ["District Pacing Guide", "Student Learning Needs"], "district": "District A", "grade": "5"}, {"after": ["Mathematical Content Knowledge"], "before": ["Student Learning Needs", "EM Past Experience", "Class Schedule", "Access to Materials"], "district": "District A", "grade": "4 \u0026 5"}, {"after": ["District Mandates", "EM Perceived Value"], "before": ["District Mandates", "District Guidelines", "EM Perceived Value", "EM Past Experience"], "district": "District A", "grade": "K"}, {"after": ["District Guidelines", "Student Learning Needs", "Teacher Autonomy"], "before": ["EM Lesson Guide", "District Guidelines", "Student Learning Needs"], "district": "District A", "grade": "4"}, {"after": ["EM Digital Tools", "Teacher Autonomy"], "before": ["EM Digital Tools", "Lesson Preparation", "Access to Materials"], "district": "District A", "grade": "1"}, {"after": ["EM Familiarity and Understanding", "Teaching Philosophy", "EM Past Experience", "Mathematical Content Knowledge"], "before": ["EM Perceived Value", "EM Digital Tools", "EM Familiarity and Understanding", "Formative Assessment", "EM Perceived Value", "District Pacing Guide"], "district": "District A", "grade": "3"}, {"after": ["Common Core State Standards", "Student Learning Needs"], "before": ["Student Learning Needs", "Common Core State Standards", "State Standards", "Access to Materials"], "district": "District A", "grade": "K"}, {"after": ["Formative Assessment"], "before": ["Student Learning Needs", "Common Core State Standards", "EM Lesson Guide"], "district": "District A", "grade": "4"}, {"after": ["Common Core State Standards", "EM Digital Tools", "Formative Assessment"], "before": ["Formative Assessment", "Student Learning Needs"], "district": "District A", "grade": "5"}, {"after": ["Formative Assessment"], "before": ["District Pacing Guide", "Time Constraints", "Common Core State Standards"], "district": "District A", "grade": "5"}, {"after": ["Lesson Preparation", "EM Lesson Guide"], "before": ["EM Familiarity and Understanding"], "district": "District A", "grade": "5"}, {"after": ["Teaching Attitude", "Common Core State Standards", "Teacher Collaboration"], "before": ["District Mandates", "Common Core State Standards", "District Guidelines", "District Instructional Leaders"], "district": "District A", "grade": "K"}, {"after": ["EM Learning Objectives", "Student Learning Needs"], "before": ["Formative Assessment", "Student Learning Needs"], "district": "District A", "grade": "5"}, {"after": ["EM Digital Tools"], "before": ["District Mandates", "Student Learning Needs", "Lesson Preparation"], "district": "District D", "grade": "K"}, {"after": ["Teaching Attitude", "Personal Organization", "Time Constraints", "Student Learning Needs"], "before": ["EM Lesson Guide", "District Guidelines"], "district": "District B", "grade": "5"}, {"after": ["Parental Involvement", "Student Learning Needs", "Formative Assessment"], "before": ["Student Learning Needs", "Formative Assessment"], "district": "District B", "grade": "3"}, {"after": ["Student Learning Needs", "Time Constraints", "EM Learning Objectives"], "before": ["Student Learning Needs"], "district": "District B", "grade": "3"}, {"after": ["Parental Involvement"], "before": ["Student Learning Needs", "Lesson Preparation", "EM Learning Objectives"], "district": "District C", "grade": "3"}, {"after": ["Formative Assessment", "Teacher Collaboration", "Supplemental Student Assistance"], "before": ["EM Perceived Value", "EM Digital Tools", "Formative Assessment"], "district": "District C", "grade": "2"}, {"after": ["Common Core State Standards"], "before": ["District Pacing Guide", "Student Learning Needs"], "district": "District C", "grade": "1"}, {"after": ["EM Perceived Value"], "before": ["EM Lesson Guide", "District Instructional Support"], "district": "District C", "grade": "2"}, {"after": ["Common Core State Standards", "EM Perceived Value", "Teaching Attitude"], "before": ["EM Familiarity and Understanding", "Common Core State Standards", "Student Learning Needs"], "district": "District A", "grade": "4"}, {"after": ["Teacher Collaboration"], "before": ["EM Lesson Guide", "Lesson Preparation"], "district": "District A", "grade": "3"}, {"after": ["EM Perceived Value", "EM Lesson Guide"], "before": ["EM Perceived Value", "Common Core State Standards"], "district": "District A", "grade": "2"}];
+  var categories = {"Access to Materials": {"description": "The extent to which material resources needed to teach the lesson (e.g. tools, manipulatives, supplies) are present in the classroom.", "display_name": "Access to Materials", "main_category": "Classroom Factors"}, "Class Schedule": {"description": "The daily sequence of and time allotted for instruction in each content area.", "display_name": "Class Schedule", "main_category": "School Level Factors"}, "Classroom Routines": {"description": "A predictable series of daily classroom tasks, procedures, or activities established by the teacher.", "display_name": "Classroom Routines", "main_category": "Teacher Level Factors"}, "Common Core State Standards": {"description": "Learning goals for K-12 mathematics and literacy intended to prepare students for college and career, voluntarily adopted by states. ", "display_name": "Common Core State Standards", "main_category": "District/State Level Factors"}, "District Assessments": {"description": "Measures that districts use to gather data on student ability and achievement for the purpose of informing instructional decisions.", "display_name": "District Assessments", "main_category": "District/State Level Factors"}, "District Guidelines": {"description": "Information, instructions, or advice regarding instruction, communicated by district leaders to teachers.", "display_name": "District Guidelines", "main_category": "District/State Level Factors"}, "District Instructional Leaders": {"description": "Individuals that direct or oversee instruction at the district level (e.g. curriculum director or math coordinator).", "display_name": "District Instructional Leaders", "main_category": "District/State Level Factors"}, "District Instructional Support": {"description": "District-wide opportunities for teachers to learn and improve their instruction.", "display_name": "District Instructional Support", "main_category": "District/State Level Factors"}, "District Mandates": {"description": "District requirements.", "display_name": "District Mandates", "main_category": "District/State Level Factors"}, "District Mastery Criteria": {"description": "District-specified achievement levels students must meet to master specific learning objectives.", "display_name": "District Mastery Criteria", "main_category": "District/State Level Factors"}, "District Materials Support": {"description": "District-wide efforts to ensure that teachers have all the materials they need to teach the lesson (e.g.", "display_name": "District Materials Support", "main_category": "District/State Level Factors"}, "District Pacing Guide": {"description": "District-developed curriculum map that shows the allocation of the instructional year for each content area standard and objective.", "display_name": "District Pacing Guide", "main_category": "District/State Level Factors"}, "District Report Card": {"description": "Periodic report issued by the district that communicates student grades and other achievement information to parents or guardians.", "display_name": "District Report Card", "main_category": "District/State Level Factors"}, "EM Digital Tools": {"description": "Tools that allow the teacher to plan and deliver instruction, activities, and assessments on any digital device.", "display_name": "EM Digital Tools", "main_category": "EM Design Features"}, "EM Familiarity and Understanding": {"description": "The teacher\u0027s exposure to and grasp of the EM activities and lessons, including knowledge of how to teach them and what to emphasize.", "display_name": "EM Familiarity and Understanding", "main_category": "Teacher Level Factors"}, "EM Learning Objectives": {"description": "Key facts, concepts, processes, and procedures students should learn upon completing a lesson or unit.", "display_name": "EM Learning Objectives", "main_category": "EM Design Features"}, "EM Lesson Guide": {"description": "Developer-created manual providing structure and sequence for content coverage and use of teaching strategies, activities, and materials.", "display_name": "EM Lesson Guide", "main_category": "EM Design Features"}, "EM Past Experience": {"description": "The teacher\u0027s knowledge about EM that is based on past experience (e.g. where students may struggle or which lessons work best).", "display_name": "EM Past Experience", "main_category": "Teacher Level Factors"}, "EM Perceived Value": {"description": "The teacher\u0027s judgment of EM, in whole or part, in terms of its worth, usefulness, or importance.", "display_name": "EM Perceived Value", "main_category": "Teacher Level Factors"}, "Expert Advice": {"description": "Information provided by one or more individuals with extensive training, experience, or expertise.", "display_name": "Expert Advice", "main_category": "Other Environmental Factors"}, "Fit with Existing Practices": {"description": "The extent to which new practices are appropriate or well-suited for integration with practices already in place.", "display_name": "Fit with Existing Practices", "main_category": "Fit "}, "Fit with Standards": {"description": "The extent to which instructional materials afford opportunities for teaching key concepts and skills outlined in standards documents.", "display_name": "Fit with Standards", "main_category": "Fit "}, "Formative Assessment": {"description": "A systematic process of gathering information to determine students\u0027 grasp of content and using that information to guide instruction.", "display_name": "Formative Assessment", "main_category": "Teacher Level Factors"}, "Lesson Preparation": {"description": "Steps enacted by the teacher prior to teaching a lesson (e.g. locating and gathering materials, selecting activities). ", "display_name": "Lesson Preparation", "main_category": "Teacher Level Factors"}, "Mathematical Content Knowledge": {"description": "The teacher\u0027s understanding of and ability to communicate about and/or represent mathematical concepts, facts, processes, and procedures.", "display_name": "Mathematical Content Knowledge", "main_category": "Teacher Level Factors"}, "Paraprofessional": {"description": "A teaching aide or assistant with regular presence in the classroom.", "display_name": "Paraprofessional", "main_category": "Classroom Factors"}, "Parent Engagement": {"description": "The teacher\u0027s efforts to share information and activities that encourage parents or guardians to reinforce academic content at home.", "display_name": "Parent Engagement", "main_category": "Teacher Level Factors"}, "Parent Feedback": {"description": "The teacher\u0027s efforts to share information with parents or guardians about students\u0027 learning objectives and progess.", "display_name": "Parent Feedback", "main_category": "Teacher Level Factors"}, "Parental Involvement": {"description": "Parental or family participation in and provision of support for homework activities.", "display_name": "Parental Involvement", "main_category": "Other Environmental Factors"}, "Personal Organization": {"description": "The teacher\u0027s ongoing efforts to arrange and keep track of materials and time.", "display_name": "Personal Organization", "main_category": "Teacher Level Factors"}, "Personality": {"description": "The combination of traits, qualities or ways of behaving that form the teacher\u0027s distinctive character.", "display_name": "Personality", "main_category": "Teacher Level Factors"}, "Principal Advocacy": {"description": "A stance of importance or priority regarding specific instructional issues, explicitly communicated to teachers by the principal.", "display_name": "Principal Advocacy", "main_category": "School Level Factors"}, "State Standards": {"description": "Learning goals adopted at the state level outlining what a student should know and be able to do at the end of each grade.", "display_name": "State Standards", "main_category": "District/State Level Factors"}, "Student Behavior": {"description": "Observable activities of students in the classroom indicating their level of participation and engagement in the lesson.", "display_name": "Student Behavior", "main_category": "Student Factors"}, "Student Learning Needs": {"description": "Students\u0027 demonstrated ability for, proficiency in, or comfort level with content, including areas of strength and difficulty.", "display_name": "Student Learning Needs", "main_category": "Student Factors"}, "Supplemental Student Assistance": {"description": "The presence of an adult other than the classroom teacher who provides students additional practice or remedial instruction as needed.", "display_name": "Supplemental Student Assistance", "main_category": "School Level Factors"}, "Teacher Autonomy": {"description": "The amount of independence or freedom the teacher has to enact the lesson in a manner that deviates from what is specified in the manual.", "display_name": "Teacher Autonomy", "main_category": "School Level Factors"}, "Teacher Collaboration": {"description": "Interactions with other teachers that advance common goals for student learning (e.g, information sharing, co-planning, data analysis). ", "display_name": "Teacher Collaboration", "main_category": "School Level Factors"}, "Teaching Attitude": {"description": "The extent to which the teacher\u0027s disposition toward teaching and learning is optimistic.", "display_name": "Teaching Attitude", "main_category": "Teacher Level Factors"}, "Teaching Philosophy": {"description": "The teacher\u0027s conceptions about key student learning goals and the strategies that will best help their students meet those goals.", "display_name": "Teaching Philosophy", "main_category": "Teacher Level Factors"}, "Teaching Style": {"description": "The characteristic way in which the teacher manages the classroom, implements instruction and connects with students.", "display_name": "Teaching Style", "main_category": "Teacher Level Factors"}, "Time Constraints": {"description": "Time-related limitations or restrictions that hinder the use of specific teaching and learning activities.", "display_name": "Time Constraints", "main_category": "School Level Factors"}, "Time Flexibility": {"description": "Delivery of instruction during other times of day in addition to the time allotted in the daily schedule.", "display_name": "Time Flexibility", "main_category": "School Level Factors"}, "Time of Day": {"description": "The specified period of time in which instruction takes place.", "display_name": "Time of Day", "main_category": "Other Environmental Factors"}};
+</script>
+
+<!-- Collapse Template -->
+<script id="collapse-template" type="text/x-handlebars-template">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-{{index}}">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{index}}" aria-expanded="false" aria-controls="collapse-{{index}}">
+          <div id="main-category-{{index}}" ></div>
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-{{index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{index}}">
+      <div class="panel-body">
+        <div id="subcategory-{{index}}"></div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- Mouseover Templates -->
+<script id="main-category-tooltip-template" type="text/x-handlebars-template">
+  <h4>{{name}}</h4>
+  <p>Before: {{before}}  After: {{after}}</p>
+</script>
+
+<script id="subcategory-tooltip-template" type="text/x-handlebars-template">
+  <h4>{{name}}</h4>
+  <p>Before: {{before}}  After: {{after}}</p>
+  <hr>
+  <p>{{description}}</p>
+</script>
+
+<script src="static/js/barchart.js"></script>
+
+</body>
+</html>

@@ -11,12 +11,25 @@ First time here?
 4. To start flask app, `cd web && python web.py`
 
 
-
 Already set up?
 
 1. `workon outlier`
 
-2. `cd web && python web.py`
+2. `cd web'
+
+3. 'python web.py`
+
+
+Want to freeze documents?
+
+1. `workon outlier`
+
+2. `cd web'
+
+3. 'python web.py build`
+
+Note: Frozen documents will now be in the build folder
+
 
 ## Provisioning production
 
